@@ -1,0 +1,12 @@
+name: widget_tree
+description: A web ui framework based on a widget tree inspired by Flutter.
+version: 0.1.0
+author: Oliver Damm <oliver.damm@gmx.de>
+homepage: http://www.github.com/blimster/widget_tree
+
+enviroment:
+  sdk: '>=2.0.0-dev.66.0 <2.0.0'
+
+dev_dependencies:
+  build_runner: '^0.9.1'
+  build_web_compilers: '^0.4.0'
