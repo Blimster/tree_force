@@ -1,14 +1,27 @@
-part of nodder;
-
-class BuildContext {}
-
-const classPrefix = 'wt-';
-
-typedef VoidCallback = void Function();
+part of widget_tree;
 
 final JsObject _consoleSupport = JsObject(context['Object']);
 final List<_WidgetTree> _widgetTrees = [];
 
+///
+///
+///
+const classPrefix = 'wt-';
+
+///
+/// Binds a widget tree to an HTML element.
+///
+/// The HTML element is selected using the given selector. The widget tree is described by the
+/// given root widget and its child widgets.
+///
+/// All child elements of the selected HTML element will be removed from the DOM and the HTML element
+/// representing the root widget will be added instead.
+///
+/// It is an error to run more than one widget tree on the same HTML element.
+///
+/// After this function is executed, a JavaScript object with the name 'wt' is available in the
+/// browser console, that provides some debug information at runtime.
+///
 void runWidgetTree(String selector, Widget root) {
   if (_widgetTrees.where((wt) => wt.selector == selector).isNotEmpty) {
     throw ArgumentError("there already runs a widget tree on selector '$selector'!");
@@ -123,6 +136,11 @@ class _WidgetTree {
   }
 }
 
+///
+/// The base class for all widgets.
+///
+/// A widget tree is built up of nothing than widgets.
+///
 abstract class Widget {
   final dynamic key;
 
@@ -131,25 +149,46 @@ abstract class Widget {
   TreeNode createTreeNode();
 }
 
+///
+/// The base class for all tree nodes.
+///
+/// A tree node represents an instance of a widget in the widget tree.
+///
 abstract class TreeNode<W extends Widget> {
   final W widget;
 
   TreeNode(Widget widget) : widget = widget;
 }
 
+///
+/// The base class for all widgets, that can be rendered directly as an HTML element.
+///
 abstract class RenderWidget extends Widget {
   const RenderWidget({dynamic key}) : super(key: key);
 
   RenderTreeNode createTreeNode();
 }
 
+///
+/// The base class for all tree nodes, that represents render widgets.
+///
 abstract class RenderTreeNode<W extends RenderWidget> extends TreeNode<W> {
   RenderTreeNode(Widget widget) : super(widget);
 
+  ///
+  /// Creates an [HtmlElement] representing this tree nodes widget. Multiple calls of this function
+  /// have to return the same instance of the HTML element.
+  ///
   HtmlElement get htmlElement;
 }
 
+///
+/// The base class for all widgets, that can be rendered directly as an HTML element and has child widgets.
+///
 abstract class MultiChildRenderWidget extends RenderWidget {
+  ///
+  /// A list of all child widgets.
+  ///
   final List<Widget> children;
 
   const MultiChildRenderWidget({dynamic key, this.children}) : super(key: key);
@@ -214,7 +253,7 @@ abstract class State<W extends StatefulWidget> {
 
   Widget build();
 
-  void setState(VoidCallback setter) {
+  void setState(void Function() setter) {
     setter();
 
     final oldNode = _widgetTree.nodes[_location];

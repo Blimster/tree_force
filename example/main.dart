@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:widget_tree/widget_tree.dart';
+import 'package:widget_tree/widget_tree_basic.dart';
 import 'package:widget_tree/widget_tree_layout.dart';
 
 void main() {
@@ -20,7 +21,8 @@ void main() {
               flexGrow: 1,
               child: Aligned(
                 child: Button(
-                  text: 'Sign In',
+                  title: 'Sign In',
+                  additionalClasses: ['foo'],
                   onClick: () => print('button was clicked!'),
                 ),
               )),
@@ -34,7 +36,10 @@ class SimpleStateless extends StatelessWidget {
     return Row(
       children: [
         Text(text: 'Hello'),
-        Text(text: 'World'),
+        Boxed(
+          marginLeft: '10px',
+          child: Text(text: 'World'),
+        ),
       ],
     );
   }
@@ -67,5 +72,4 @@ class _SimpleState extends State<SimpleStateful> {
   String toString() {
     return '_SimpleState{counter: $counter}';
   }
-
 }
