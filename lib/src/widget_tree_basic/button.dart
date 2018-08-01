@@ -19,7 +19,7 @@ class Button extends StatelessWidget {
       key: key,
       onClick: onClick,
       child: HtmlTag(
-        tag: 'div',
+        tag: 'button',
         id: id,
         classes: classesOf('${classPrefix}button', additionalClasses),
         text: title,

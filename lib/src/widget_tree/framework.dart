@@ -22,10 +22,12 @@ const classPrefix = 'wt-';
 /// After this function is executed, a JavaScript object with the name 'wt' is available in the
 /// browser console, that provides some debug information at runtime.
 ///
-void runWidgetTree(String selector, Widget root) {
+void runWidgetTree(String selector, Widget root, {HtmlNodeRenderer renderer}) {
   if (_widgetTrees.where((wt) => wt.selector == selector).isNotEmpty) {
     throw ArgumentError("there already runs a widget tree on selector '$selector'!");
   }
+
+  renderer ??= new NativeNodeRender();
 
   final widgetTree = _WidgetTree(selector, root);
   _widgetTrees.add(widgetTree);

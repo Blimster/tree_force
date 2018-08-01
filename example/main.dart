@@ -5,6 +5,15 @@ import 'package:widget_tree/widget_tree_basic.dart';
 import 'package:widget_tree/widget_tree_layout.dart';
 
 void main() {
+
+
+//  patch(querySelector('#test'), () {
+//    elementOpen('div', propertyValuePairs: ['onclick', (MouseEvent e) => print(e.client.x)]);
+//    text('foo');
+//    elementClose('div');
+//  });
+
+
   runWidgetTree(
       '#output',
       Sized(
@@ -16,6 +25,11 @@ void main() {
             SimpleStateful('state'),
             Text(text: 'E-Mail'),
             Text(text: 'Nickname'),
+            Input2(
+              placeholder: 'test',
+              initialValue: 'foo',
+              onInput: (e) => print(e),
+            ),
           ]),
           FlexItem(
               flexGrow: 1,
@@ -60,7 +74,7 @@ class _SimpleState extends State<SimpleStateful> {
   int counter = 0;
 
   _SimpleState(SimpleStateful widget) : super(widget) {
-    Timer.periodic(Duration(seconds: 1), (_) => setState(() => counter++));
+    Timer.periodic(Duration(seconds: 3), (_) => setState(() => counter++));
   }
 
   @override

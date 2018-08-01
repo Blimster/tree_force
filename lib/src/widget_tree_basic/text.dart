@@ -8,8 +8,8 @@ class Text extends HtmlTag {
     String text,
   }) : super(
           key: key,
-          id: id,
           tag: 'span',
+          id: id,
           classes: classesOf('${classPrefix}text', additionalClasses),
           text: text,
         );
