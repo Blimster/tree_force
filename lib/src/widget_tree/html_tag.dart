@@ -16,10 +16,10 @@ List<String> classesOf(String mainClass, List<String> additionalClasses) {
 
 Map<String, String> attributesOf(Map<String, String> mainAttributes, Map<String, String> additionalAttributes) {
   final result = <String, String>{};
-  if(additionalAttributes != null) {
+  if (additionalAttributes != null) {
     result.addAll(additionalAttributes);
   }
-  if(mainAttributes != null) {
+  if (mainAttributes != null) {
     result.addAll(mainAttributes);
   }
   return result;
@@ -54,30 +54,30 @@ class HtmlTag extends MultiChildRenderWidget {
 }
 
 class HtmlTagTreeNode extends MultiChildRenderTreeNode<HtmlTag> {
-  final HtmlElement _htmlElement;
+  final HtmlNode _htmlElement;
 
   HtmlTagTreeNode(HtmlTag widget)
-      : _htmlElement = Element.tag(widget.tag),
+      : _htmlElement = HtmlNode(widget.tag),
         super(widget) {
     if (widget.id != null) {
-      _htmlElement.id = widget.id;
+      _htmlElement.setAttribute('id', widget.id);
     }
     widget.attributes?.forEach((name, value) {
       _htmlElement.setAttribute(name, value);
     });
-    widget.styles?.forEach((name, value) {
-      _htmlElement.style.setProperty(name, value);
-    });
+
+    _htmlElement.setAttribute('style', widget.styles?.keys?.map((name) => '$name: ${widget.styles[name]}')?.join('; '));
+
     if (widget.classes != null) {
-      _htmlElement.classes = widget.classes;
+      _htmlElement.setAttribute('class', widget.classes.join(' '));
     }
     _htmlElement.text = widget.text;
   }
 
-  HtmlElement get htmlElement => _htmlElement;
+  HtmlNode get htmlElement => _htmlElement;
 
   @override
   void addChild(RenderTreeNode child) {
-    _htmlElement.append(child.htmlElement);
+    _htmlElement.addChild(child.htmlElement);
   }
 }

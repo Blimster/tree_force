@@ -41,31 +41,34 @@ class Aligned extends SingleChildRenderWidget {
 }
 
 class _AlignedTreeNode extends SingleChildRenderTreeNode<Aligned> {
-  HtmlElement _htmlElement;
+  HtmlNode _htmlElement;
 
   _AlignedTreeNode(Aligned widget) : super(widget) {
-    _htmlElement = DivElement()
-      ..classes = ['${classPrefix}aligned']
-      ..style.width = '100%'
-      ..style.height = '100%'
-      ..style.position = 'relative';
+    _htmlElement = HtmlNode(
+      'div',
+      attributes: {
+        'class': '${classPrefix}aligned',
+        'style': 'width: 100%; height: 100%; position: relative',
+      },
+    );
   }
 
   @override
-  HtmlElement get htmlElement => _htmlElement;
+  HtmlNode get htmlElement => _htmlElement;
 
   @override
   void setChild(RenderTreeNode<RenderWidget> child) {
-    assert(_htmlElement.childNodes.isEmpty);
+    assert(_htmlElement.children.isEmpty);
 
-    child.htmlElement
-      ..style.position = 'absolute'
-      ..style.left = widget.horizontalAlignment.positionLeft
-      ..style.right = widget.horizontalAlignment.positionRight
-      ..style.top = widget.verticalAlignment.positionTop
-      ..style.bottom = widget.verticalAlignment.positionBottom
-      ..style.transform = 'translate(${widget.horizontalAlignment.translateX}, ${widget.verticalAlignment.translateY})';
+    child.htmlElement.addStyles({
+      'position': 'absolute',
+      'left': widget.horizontalAlignment.positionLeft,
+      'right': widget.horizontalAlignment.positionRight,
+      'top': widget.verticalAlignment.positionTop,
+      'bottom': widget.verticalAlignment.positionBottom,
+      'transform': 'translate(${widget.horizontalAlignment.translateX}, ${widget.verticalAlignment.translateY})'
+    });
 
-    _htmlElement.append(child.htmlElement);
+    _htmlElement.addChild(child.htmlElement);
   }
 }

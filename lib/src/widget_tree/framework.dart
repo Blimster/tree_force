@@ -27,9 +27,15 @@ void runWidgetTree(String selector, Widget root, {HtmlNodeRenderer renderer}) {
     throw ArgumentError("there already runs a widget tree on selector '$selector'!");
   }
 
-  renderer ??= new NativeNodeRender();
+  renderer ??= IncrementalDomHtmlNodeRenderer();
 
-  final widgetTree = _WidgetTree(selector, root);
+  final hostElement = querySelector(selector);
+  while (hostElement.firstChild != null) {
+    hostElement.firstChild.remove();
+  }
+
+
+  final widgetTree = _WidgetTree(selector, hostElement, root, renderer);
   _widgetTrees.add(widgetTree);
 
   if (_consoleSupport['list'] == null) {
@@ -46,12 +52,7 @@ void runWidgetTree(String selector, Widget root, {HtmlNodeRenderer renderer}) {
   ti['states'] = (_) => widgetTree.states.entries.forEach((e) => print('${e.key} -> ${e.value}'));
   ti['tree'] = (_) => widgetTree.nodes.keys.forEach((p) => print(p));
 
-  var hostElement = querySelector(selector);
-  final rootTreeNode = widgetTree._buildTreeNode(root, _TreeLocation(root));
-  while (hostElement.firstChild != null) {
-    hostElement.firstChild.remove();
-  }
-  hostElement.append(rootTreeNode.htmlElement);
+  widgetTree.render();
 }
 
 class _TreeLocation {
@@ -87,25 +88,27 @@ class _TreeLocation {
 
 class _WidgetTree {
   final String selector;
+  final HtmlElement hostElement;
   final Widget root;
+  final HtmlNodeRenderer renderer;
   final Map<_TreeLocation, State> states = {};
   final Map<_TreeLocation, TreeNode> nodes = {};
 
-  _WidgetTree(this.selector, this.root);
+  _WidgetTree(this.selector, this.hostElement, this.root, this.renderer);
 
-  RenderTreeNode _buildTreeNode(Widget widget, _TreeLocation location) {
+  RenderTreeNode buildTreeNode(Widget widget, _TreeLocation location) {
     if (widget is MultiChildRenderWidget) {
       final treeNode = widget.createTreeNode();
       nodes[location] = treeNode;
       widget.children?.forEach((child) {
-        treeNode.addChild(_buildTreeNode(child, location.childLocation(child)));
+        treeNode.addChild(buildTreeNode(child, location.childLocation(child)));
       });
       return treeNode;
     } else if (widget is SingleChildRenderWidget) {
       final child = widget.child;
       final treeNode = widget.createTreeNode();
       nodes[location] = treeNode;
-      treeNode.setChild(_buildTreeNode(child, location.childLocation(child)));
+      treeNode.setChild(buildTreeNode(child, location.childLocation(child)));
       return treeNode;
     } else if (widget is RenderWidget) {
       final treeNode = widget.createTreeNode();
@@ -114,7 +117,7 @@ class _WidgetTree {
     } else if (widget is StatelessWidget) {
       final builtWidget = widget.build();
       nodes[location] = widget.createTreeNode();
-      return _buildTreeNode(builtWidget, location.childLocation(builtWidget));
+      return buildTreeNode(builtWidget, location.childLocation(builtWidget));
     } else if (widget is StatefulWidget) {
       var state = states[location];
       if (state == null) {
@@ -128,13 +131,18 @@ class _WidgetTree {
       nodes[location] = treeNode;
 
       final builtWidget = state.build();
-      final builtTreeNode = _buildTreeNode(builtWidget, location.childLocation(builtWidget, resetPositions: true));
+      final builtTreeNode = buildTreeNode(builtWidget, location.childLocation(builtWidget, resetPositions: true));
 
       treeNode._builtTreeNode = builtTreeNode;
 
       return builtTreeNode;
     }
     throw new StateError('unsupported widget type: ${widget?.runtimeType}');
+  }
+
+  void render() {
+    final rootTreeNode = buildTreeNode(root, _TreeLocation(root));
+    renderer.render(hostElement, rootTreeNode.htmlElement);
   }
 }
 
@@ -181,7 +189,7 @@ abstract class RenderTreeNode<W extends RenderWidget> extends TreeNode<W> {
   /// Creates an [HtmlElement] representing this tree nodes widget. Multiple calls of this function
   /// have to return the same instance of the HTML element.
   ///
-  HtmlElement get htmlElement;
+  HtmlNode get htmlElement;
 }
 
 ///
@@ -258,14 +266,15 @@ abstract class State<W extends StatefulWidget> {
   void setState(void Function() setter) {
     setter();
 
-    final oldNode = _widgetTree.nodes[_location];
-    final newNode = _widgetTree._buildTreeNode(widget, _location);
-
-    if (oldNode is StatefulTreeNode) {
-      oldNode._builtTreeNode.htmlElement.replaceWith(newNode.htmlElement);
-    } else {
-      throw StateError('expected an tree node for a stateful widget! this is a bug!');
-    }
+//    final oldNode = _widgetTree.nodes[_location];
+//    final newNode = _widgetTree._buildTreeNode(widget, _location);
+//
+//    if (oldNode is StatefulTreeNode) {
+//      oldNode._builtTreeNode.htmlElement.replaceWith(newNode.htmlElement);
+//    } else {
+//      throw StateError('expected an tree node for a stateful widget! this is a bug!');
+//    }
+    _widgetTree.render();
   }
 
   @override

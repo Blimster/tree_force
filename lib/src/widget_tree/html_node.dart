@@ -4,6 +4,7 @@ typedef EventListener = void Function(Event event);
 
 class HtmlNode {
   final String tagName;
+  final String key;
   final List<HtmlNode> children = [];
   final Map<String, String> attributes = {};
   final Map<String, dynamic> properties = {};
@@ -12,6 +13,7 @@ class HtmlNode {
 
   HtmlNode(
     this.tagName, {
+    this.key,
     this.text,
     List<HtmlNode> children,
     Map<String, String> attributes,
@@ -47,6 +49,38 @@ class HtmlNode {
   void setListener(String event, EventListener listener) {
     this.listeners[event] = listener;
   }
+
+  void addClasses(List<String> names) {
+    var currentValue = attributes['class'];
+    names?.forEach((name) {
+      if (currentValue != null) {
+        currentValue += ' name';
+      } else {
+        currentValue = name;
+      }
+    });
+    attributes['class'] = currentValue.trim();
+  }
+
+  void addClass(String name) {
+    addClasses([name]);
+  }
+
+  void addStyles(Map<String, String> styles) {
+    var currentValue = attributes['style'];
+    styles?.forEach((name, value) {
+      if (currentValue != null) {
+        currentValue += '; $name: $value';
+      } else {
+        currentValue = '$name: $value';
+      }
+    });
+    attributes['style'] = currentValue.trim();
+  }
+
+  void addStyle(String name, String value) {
+    addStyles({name: value});
+  }
 }
 
 abstract class HtmlNodeRenderer {
@@ -56,6 +90,9 @@ abstract class HtmlNodeRenderer {
 class NativeNodeRender extends HtmlNodeRenderer {
   @override
   void render(HtmlElement hostElement, HtmlNode rootNode) {
+    while (hostElement.firstChild != null) {
+      hostElement.firstChild.remove();
+    }
     final rootElement = _createElement(rootNode);
     hostElement.append(rootElement);
   }
@@ -86,5 +123,25 @@ class NativeNodeRender extends HtmlNodeRenderer {
     });
 
     return element;
+  }
+}
+
+class IncrementalDomHtmlNodeRenderer extends HtmlNodeRenderer {
+  @override
+  void render(HtmlElement hostElement, HtmlNode rootNode) {
+    patch(hostElement, () => _createElement(rootNode));
+  }
+
+  void _createElement(HtmlNode node) {
+    final props = [];
+    node.attributes.forEach((name, value) => props.addAll([name, value]));
+    node.listeners.forEach((event, listener) => props.addAll([event, listener]));
+
+    elementOpen(node.tagName, key: node.key, propertyValuePairs: props);
+    if (node.text != null) {
+      text(node.text);
+    }
+    node.children.forEach((child) => _createElement(child));
+    elementClose(node.tagName);
   }
 }

@@ -18,27 +18,27 @@ class Sized extends SingleChildRenderWidget {
 }
 
 class _SizedTreeNode extends SingleChildRenderTreeNode<Sized> {
-  HtmlElement _htmlElement;
+  HtmlNode _htmlElement;
 
   _SizedTreeNode(Sized widget) : super(widget) {
-    _htmlElement = new DivElement()
-      ..classes = ['${classPrefix}sized']
-      ..style.width = widget.width
-      ..style.height = widget.height;
+    _htmlElement = HtmlNode('div')
+      ..addClass('${classPrefix}sized')
+      ..addStyles({
+        'width': widget.width,
+        'height': widget.height
+      });
   }
 
   @override
-  HtmlElement get htmlElement => _htmlElement;
+  HtmlNode get htmlElement => _htmlElement;
 
   @override
   void setChild(RenderTreeNode<RenderWidget> child) {
-    assert(_htmlElement.childNodes.isEmpty);
+    assert(_htmlElement.children.isEmpty);
 
     final element = child.htmlElement;
-    element
-      ..style.height = '100%'
-      ..style.width = '100%';
+    element.addStyles({'height': '100%', 'width': '100%'});
 
-    _htmlElement.append(child.htmlElement);
+    _htmlElement.addChild(child.htmlElement);
   }
 }
