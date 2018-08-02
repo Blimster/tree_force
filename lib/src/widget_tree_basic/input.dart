@@ -2,37 +2,7 @@ part of widget_tree_basic;
 
 typedef ValueChangeListener = void Function(String);
 
-class Input extends HtmlTag {
-  final ValueChangeListener onInput;
-
-  Input({
-    dynamic key,
-    String id,
-    String type,
-    String name,
-    String placeholder,
-    String initialValue,
-    Map<String, String> additionalAttributes,
-    List<String> additionalClasses,
-    this.onInput,
-  }) : super(
-          key: key,
-          tag: 'input',
-          id: id,
-          attributes: attributesOf(
-            {
-              'type': type ?? 'text',
-              'name': name ?? '',
-              'placeholder': placeholder ?? '',
-              'value': initialValue ?? '',
-            },
-            additionalAttributes,
-          ),
-          classes: classesOf('${classPrefix}input', additionalClasses),
-        );
-}
-
-class Input2 extends StatelessWidget {
+class Input extends StatelessWidget {
   final String id;
   final String type;
   final String name;
@@ -42,7 +12,7 @@ class Input2 extends StatelessWidget {
   final List<String> additionalClasses;
   final ValueChangeListener onInput;
 
-  Input2({
+  Input({
     dynamic key,
     this.id,
     this.type,
@@ -57,13 +27,17 @@ class Input2 extends StatelessWidget {
   @override
   Widget build() => ValueListener(
       key: key,
-      onInput: (v) => print(v),
-      child: HtmlTag(key: key,
+      onInput: (value) {
+        if (this.onInput != null) {
+          onInput(value);
+        }
+      },
+      child: HtmlTag(
+        key: key,
         tag: 'input',
         id: id,
         attributes: attributesOf(
           {
-            'id': 'foo',
             'type': type ?? 'text',
             'name': name ?? '',
             'placeholder': placeholder ?? '',

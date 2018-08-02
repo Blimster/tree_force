@@ -22,10 +22,10 @@ void main() {
           SimpleStateful('state'),
           Text(text: 'E-Mail'),
           Text(text: 'Nickname'),
-          Input2(
+          Input(
             placeholder: 'test',
             initialValue: 'foo',
-            onInput: (e) => print(e),
+            onInput: (text) => print('value of input: $text'),
           ),
         ]),
         FlexItem(

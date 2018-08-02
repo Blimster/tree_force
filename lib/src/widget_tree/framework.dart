@@ -122,7 +122,6 @@ class _WidgetTree {
       var state = states[location];
       if (state == null) {
         state = widget.createState();
-        state._location = location;
         state._widgetTree = this;
         states[location] = state;
       }
@@ -132,8 +131,6 @@ class _WidgetTree {
 
       final builtWidget = state.build();
       final builtTreeNode = buildTreeNode(builtWidget, location.childLocation(builtWidget, resetPositions: true));
-
-      treeNode._builtTreeNode = builtTreeNode;
 
       return builtTreeNode;
     }
@@ -249,14 +246,11 @@ abstract class StatefulWidget extends Widget {
 }
 
 class StatefulTreeNode extends TreeNode<StatefulWidget> {
-  RenderTreeNode _builtTreeNode;
-
   StatefulTreeNode(StatefulWidget widget) : super(widget);
 }
 
 abstract class State<W extends StatefulWidget> {
   final W widget;
-  _TreeLocation _location;
   _WidgetTree _widgetTree;
 
   State(this.widget);
@@ -265,15 +259,6 @@ abstract class State<W extends StatefulWidget> {
 
   void setState(void Function() setter) {
     setter();
-
-//    final oldNode = _widgetTree.nodes[_location];
-//    final newNode = _widgetTree._buildTreeNode(widget, _location);
-//
-//    if (oldNode is StatefulTreeNode) {
-//      oldNode._builtTreeNode.htmlElement.replaceWith(newNode.htmlElement);
-//    } else {
-//      throw StateError('expected an tree node for a stateful widget! this is a bug!');
-//    }
     _widgetTree.render();
   }
 

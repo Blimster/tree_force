@@ -14,6 +14,9 @@ List<String> classesOf(String mainClass, List<String> additionalClasses) {
   return result;
 }
 
+///
+/// Creates a map of attributes from the given main attributes and the additional attributes.
+///
 Map<String, String> attributesOf(Map<String, String> mainAttributes, Map<String, String> additionalAttributes) {
   final result = <String, String>{};
   if (additionalAttributes != null) {
