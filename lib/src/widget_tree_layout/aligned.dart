@@ -41,10 +41,10 @@ class Aligned extends SingleChildRenderWidget {
 }
 
 class _AlignedTreeNode extends SingleChildRenderTreeNode<Aligned> {
-  HtmlNode _htmlElement;
+  HtmlNode _htmlNode;
 
   _AlignedTreeNode(Aligned widget) : super(widget) {
-    _htmlElement = HtmlNode(
+    _htmlNode = HtmlNode(
       'div',
       attributes: {
         'class': '${classPrefix}aligned',
@@ -54,13 +54,13 @@ class _AlignedTreeNode extends SingleChildRenderTreeNode<Aligned> {
   }
 
   @override
-  HtmlNode get htmlElement => _htmlElement;
+  HtmlNode get htmlNode => _htmlNode;
 
   @override
   void setChild(RenderTreeNode<RenderWidget> child) {
-    assert(_htmlElement.children.isEmpty);
+    assert(_htmlNode.children.isEmpty);
 
-    child.htmlElement.addStyles({
+    child.htmlNode.addStyles({
       'position': 'absolute',
       'left': widget.horizontalAlignment.positionLeft,
       'right': widget.horizontalAlignment.positionRight,
@@ -69,6 +69,6 @@ class _AlignedTreeNode extends SingleChildRenderTreeNode<Aligned> {
       'transform': 'translate(${widget.horizontalAlignment.translateX}, ${widget.verticalAlignment.translateY})'
     });
 
-    _htmlElement.addChild(child.htmlElement);
+    _htmlNode.addChild(child.htmlNode);
   }
 }

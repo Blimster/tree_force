@@ -12,21 +12,21 @@ class FlexItem extends SingleChildRenderWidget {
 }
 
 class _FlexItemTreeNode extends SingleChildRenderTreeNode<FlexItem> {
-  HtmlNode _htmlElement;
+  HtmlNode _htmlNode;
 
   _FlexItemTreeNode(FlexItem widget)
-      : _htmlElement = HtmlNode('div')
+      : _htmlNode = HtmlNode('div')
           ..addStyle('flex-grow', '${widget.flexGrow}')
           ..addClass('${classPrefix}flex-item'),
         super(widget);
 
   @override
-  HtmlNode get htmlElement => _htmlElement;
+  HtmlNode get htmlNode => _htmlNode;
 
   @override
   void setChild(RenderTreeNode child) {
-    assert(_htmlElement.children.isEmpty);
-    _htmlElement.addChild(child.htmlElement);
+    assert(_htmlNode.children.isEmpty);
+    _htmlNode.addChild(child.htmlNode);
   }
 }
 

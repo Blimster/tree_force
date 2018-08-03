@@ -57,30 +57,29 @@ class HtmlTag extends MultiChildRenderWidget {
 }
 
 class HtmlTagTreeNode extends MultiChildRenderTreeNode<HtmlTag> {
-  final HtmlNode _htmlElement;
+  final HtmlNode _htmlNode;
 
   HtmlTagTreeNode(HtmlTag widget)
-      : _htmlElement = HtmlNode(widget.tag),
+      : _htmlNode = HtmlNode(widget.tag, text: widget.text),
         super(widget) {
     if (widget.id != null) {
-      _htmlElement.setAttribute('id', widget.id);
+      _htmlNode.setAttribute('id', widget.id);
     }
     widget.attributes?.forEach((name, value) {
-      _htmlElement.setAttribute(name, value);
+      _htmlNode.setAttribute(name, value);
     });
 
-    _htmlElement.setAttribute('style', widget.styles?.keys?.map((name) => '$name: ${widget.styles[name]}')?.join('; '));
+    _htmlNode.setAttribute('style', widget.styles?.keys?.map((name) => '$name: ${widget.styles[name]}')?.join('; '));
 
     if (widget.classes != null) {
-      _htmlElement.setAttribute('class', widget.classes.join(' '));
+      _htmlNode.setAttribute('class', widget.classes.join(' '));
     }
-    _htmlElement.text = widget.text;
   }
 
-  HtmlNode get htmlElement => _htmlElement;
+  HtmlNode get htmlNode => _htmlNode;
 
   @override
   void addChild(RenderTreeNode child) {
-    _htmlElement.addChild(child.htmlElement);
+    _htmlNode.addChild(child.htmlNode);
   }
 }

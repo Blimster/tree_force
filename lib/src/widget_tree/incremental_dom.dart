@@ -1,18 +1,15 @@
-library incremental_dom;
-
-import 'dart:html';
-import 'dart:js';
+part of widget_tree;
 
 final JsObject _incDom = context['IncrementalDOM'];
 
-void elementOpen(String tagName, {String key, List<dynamic> staticPropertyValuePairs, List<dynamic> propertyValuePairs}) {
+HtmlElement elementOpen(String tagName, {String key, List<dynamic> staticPropertyValuePairs, List<dynamic> propertyValuePairs}) {
   final args = [tagName, key, staticPropertyValuePairs];
   if (propertyValuePairs != null) {
     args.addAll(propertyValuePairs);
   } else {
     args.add(null);
   }
-  _incDom.callMethod('elementOpen', args);
+  return _incDom.callMethod('elementOpen', args);
 }
 
 void elementClose(String tagName) {

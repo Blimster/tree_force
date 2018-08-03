@@ -12,18 +12,18 @@ class InteractionListener extends SingleChildRenderWidget {
 }
 
 class _InteractionListenerTreeNode extends SingleChildRenderTreeNode<InteractionListener> {
-  HtmlNode _htmlElement;
+  HtmlNode _htmlNode;
 
   _InteractionListenerTreeNode(InteractionListener widget) : super(widget);
 
   @override
-  HtmlNode get htmlElement => _htmlElement;
+  HtmlNode get htmlNode => _htmlNode;
 
   @override
   void setChild(RenderTreeNode child) {
-    _htmlElement = child.htmlElement;
+    _htmlNode = child.htmlNode;
     if (widget.onClick != null) {
-      _htmlElement.setListener('onclick', (_) => widget.onClick());
+      _htmlNode.setListener('onclick', (_) => widget.onClick());
     }
   }
 }

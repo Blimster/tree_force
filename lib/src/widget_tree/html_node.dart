@@ -5,11 +5,12 @@ typedef EventListener = void Function(Event event);
 class HtmlNode {
   final String tagName;
   final String key;
+  final String text;
   final List<HtmlNode> children = [];
   final Map<String, String> attributes = {};
   final Map<String, dynamic> properties = {};
   final Map<String, EventListener> listeners = {};
-  String text;
+  HtmlElement htmlElement;
 
   HtmlNode(
     this.tagName, {
@@ -84,7 +85,7 @@ class HtmlNode {
 }
 
 abstract class HtmlNodeRenderer {
-  void render(HtmlElement hostElement, HtmlNode rootNode);
+  void render(HtmlElement hostElement, HtmlNode node);
 }
 
 class NativeNodeRender extends HtmlNodeRenderer {
@@ -122,6 +123,8 @@ class NativeNodeRender extends HtmlNodeRenderer {
       element.append(_createElement(child));
     });
 
+    node.htmlElement = element;
+
     return element;
   }
 }
@@ -137,11 +140,14 @@ class IncrementalDomHtmlNodeRenderer extends HtmlNodeRenderer {
     node.attributes.forEach((name, value) => props.addAll([name, value]));
     node.listeners.forEach((event, listener) => props.addAll([event, listener]));
 
-    elementOpen(node.tagName, key: node.key, propertyValuePairs: props);
+    final htmlElement = elementOpen(node.tagName, key: node.key, propertyValuePairs: props);
     if (node.text != null) {
       text(node.text);
     }
+
     node.children.forEach((child) => _createElement(child));
     elementClose(node.tagName);
+
+    node.htmlElement = htmlElement;
   }
 }

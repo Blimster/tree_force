@@ -34,7 +34,6 @@ void runWidgetTree(String selector, Widget root, {HtmlNodeRenderer renderer}) {
     hostElement.firstChild.remove();
   }
 
-
   final widgetTree = _WidgetTree(selector, hostElement, root, renderer);
   _widgetTrees.add(widgetTree);
 
@@ -138,8 +137,7 @@ class _WidgetTree {
   }
 
   void render() {
-    final rootTreeNode = buildTreeNode(root, _TreeLocation(root));
-    renderer.render(hostElement, rootTreeNode.htmlElement);
+    renderer.render(hostElement, buildTreeNode(root, _TreeLocation(root)).htmlNode);
   }
 }
 
@@ -183,10 +181,10 @@ abstract class RenderTreeNode<W extends RenderWidget> extends TreeNode<W> {
   RenderTreeNode(Widget widget) : super(widget);
 
   ///
-  /// Creates an [HtmlElement] representing this tree nodes widget. Multiple calls of this function
-  /// have to return the same instance of the HTML element.
+  /// Creates an [HtmlNode] representing this tree nodes widget. Multiple calls of this function
+  /// have to return the same instance of the [HtmlNode].
   ///
-  HtmlNode get htmlElement;
+  HtmlNode get htmlNode;
 }
 
 ///

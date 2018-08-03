@@ -29,16 +29,16 @@ class Boxed extends SingleChildRenderWidget {
 }
 
 class _BoxedTreeNode extends SingleChildRenderTreeNode<Boxed> {
-  HtmlNode _htmlElement;
+  HtmlNode _htmlNode;
 
   _BoxedTreeNode(Boxed widget) : super(widget);
 
   @override
-  HtmlNode get htmlElement => _htmlElement;
+  HtmlNode get htmlNode => _htmlNode;
 
   @override
   void setChild(RenderTreeNode<RenderWidget> child) {
-    child.htmlElement.addStyles({
+    child.htmlNode.addStyles({
       'margin-top': widget.marginTop,
       'margin-right': widget.marginRight,
       'margin-bottom': widget.marginBottom,
@@ -49,6 +49,6 @@ class _BoxedTreeNode extends SingleChildRenderTreeNode<Boxed> {
       'padding-left': widget.paddingLeft
     });
 
-    _htmlElement = child.htmlElement;
+    _htmlNode = child.htmlNode;
   }
 }

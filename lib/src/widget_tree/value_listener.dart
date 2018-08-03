@@ -14,18 +14,18 @@ class ValueListener extends SingleChildRenderWidget {
 }
 
 class _ValueListenerTreeNode extends SingleChildRenderTreeNode<ValueListener> {
-  HtmlNode _htmlElement;
+  HtmlNode _htmlNode;
 
   _ValueListenerTreeNode(ValueListener widget) : super(widget);
 
   @override
-  HtmlNode get htmlElement => _htmlElement;
+  HtmlNode get htmlNode => _htmlNode;
 
   @override
   void setChild(RenderTreeNode child) {
-    _htmlElement = child.htmlElement;
+    _htmlNode = child.htmlNode;
     if (widget.onInput != null) {
-      _htmlElement.setListener('oninput', (Event e) => widget.onInput((e.target as InputElement).value));
+      _htmlNode.setListener('oninput', (Event e) => widget.onInput((e.target as InputElement).value));
     }
   }
 }
