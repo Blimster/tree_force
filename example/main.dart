@@ -5,12 +5,6 @@ import 'package:widget_tree/widget_tree_basic.dart';
 import 'package:widget_tree/widget_tree_layout.dart';
 
 void main() {
-//  patch(querySelector('#test'), () {
-//    elementOpen('div', propertyValuePairs: ['onclick', (MouseEvent e) => print(e.client.x)]);
-//    text('foo');
-//    elementClose('div');
-//  });
-
   runWidgetTree(
     '#output',
     Sized(
