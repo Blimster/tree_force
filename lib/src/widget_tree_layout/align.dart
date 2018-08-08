@@ -24,11 +24,11 @@ class VerticalAlignment {
   const VerticalAlignment._(this.positionTop, this.positionBottom, this.translateY);
 }
 
-class Aligned extends SingleChildRenderWidget {
+class Align extends SingleChildRenderWidget {
   final HorizontalAlignment horizontalAlignment;
   final VerticalAlignment verticalAlignment;
 
-  const Aligned({
+  const Align({
     this.horizontalAlignment = HorizontalAlignment.center,
     this.verticalAlignment = VerticalAlignment.center,
     Widget child,
@@ -36,14 +36,14 @@ class Aligned extends SingleChildRenderWidget {
 
   @override
   SingleChildRenderTreeNode<SingleChildRenderWidget> createTreeNode() {
-    return _AlignedTreeNode(this);
+    return _AlignTreeNode(this);
   }
 }
 
-class _AlignedTreeNode extends SingleChildRenderTreeNode<Aligned> {
+class _AlignTreeNode extends SingleChildRenderTreeNode<Align> {
   HtmlNode _htmlNode;
 
-  _AlignedTreeNode(Aligned widget) : super(widget) {
+  _AlignTreeNode(Align widget) : super(widget) {
     _htmlNode = HtmlNode(
       'div',
       attributes: {

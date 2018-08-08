@@ -1,37 +1,29 @@
 part of widget_tree_layout;
 
-class Boxed extends SingleChildRenderWidget {
+class Margin extends SingleChildRenderWidget {
   final String marginTop;
   final String marginRight;
   final String marginBottom;
   final String marginLeft;
-  final String paddingTop;
-  final String paddingRight;
-  final String paddingBottom;
-  final String paddingLeft;
 
-  const Boxed({
+  const Margin({
     this.marginTop,
     this.marginRight,
     this.marginBottom,
     this.marginLeft,
-    this.paddingTop,
-    this.paddingRight,
-    this.paddingBottom,
-    this.paddingLeft,
     Widget child,
   }) : super(child: child);
 
   @override
   SingleChildRenderTreeNode<SingleChildRenderWidget> createTreeNode() {
-    return _BoxedTreeNode(this);
+    return _MarginTreeNode(this);
   }
 }
 
-class _BoxedTreeNode extends SingleChildRenderTreeNode<Boxed> {
+class _MarginTreeNode extends SingleChildRenderTreeNode<Margin> {
   HtmlNode _htmlNode;
 
-  _BoxedTreeNode(Boxed widget) : super(widget);
+  _MarginTreeNode(Margin widget) : super(widget);
 
   @override
   HtmlNode get htmlNode => _htmlNode;
@@ -43,10 +35,6 @@ class _BoxedTreeNode extends SingleChildRenderTreeNode<Boxed> {
       'margin-right': widget.marginRight,
       'margin-bottom': widget.marginBottom,
       'margin-left': widget.marginLeft,
-      'padding-top': widget.paddingTop,
-      'padding-tight': widget.paddingRight,
-      'padding-bottom': widget.paddingBottom,
-      'padding-left': widget.paddingLeft
     });
 
     _htmlNode = child.htmlNode;

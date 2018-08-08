@@ -3,7 +3,7 @@ part of widget_tree_fx;
 class Transform extends SingleChildRenderWidget {
   final Matrix4 transform;
 
-  Transform(this.transform, Widget child) : super(child: child);
+  Transform(this.transform, {dynamic key, Widget child}) : super(key: key, child: child);
 
   @override
   SingleChildRenderTreeNode<SingleChildRenderWidget> createTreeNode() {
@@ -22,7 +22,7 @@ class TransformTreeNode extends SingleChildRenderTreeNode<Transform> {
   @override
   void setChild(RenderTreeNode<RenderWidget> child) {
     _htmlNode = child.htmlNode;
-    if(widget.transform != null) {
+    if (widget.transform != null) {
       final cells = List<num>(16);
       widget.transform.copyIntoArray(cells, 0);
       _htmlNode.addStyle('transform', 'matrix3d(${cells.join(', ')})');
