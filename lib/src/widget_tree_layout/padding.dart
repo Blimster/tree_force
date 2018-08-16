@@ -1,42 +1,35 @@
 part of widget_tree_layout;
 
-class Padding extends SingleChildRenderWidget {
-  final String paddingTop;
-  final String paddingRight;
-  final String paddingBottom;
-  final String paddingLeft;
+class Padding extends DecoratorRenderWidget {
+  final Length top;
+  final Length right;
+  final Length bottom;
+  final Length left;
 
   const Padding({
-    this.paddingTop,
-    this.paddingRight,
-    this.paddingBottom,
-    this.paddingLeft,
+    this.top,
+    this.right,
+    this.bottom,
+    this.left,
     Widget child,
   }) : super(child: child);
 
   @override
-  SingleChildRenderTreeNode<SingleChildRenderWidget> createTreeNode() {
+  DecoratorRenderTreeNode<Padding> createTreeNode() {
     return _PaddingTreeNode(this);
   }
 }
 
-class _PaddingTreeNode extends SingleChildRenderTreeNode<Padding> {
-  HtmlNode _htmlNode;
-
+class _PaddingTreeNode extends DecoratorRenderTreeNode<Padding> {
   _PaddingTreeNode(Padding widget) : super(widget);
 
   @override
-  HtmlNode get htmlNode => _htmlNode;
-
-  @override
-  void setChild(RenderTreeNode<RenderWidget> child) {
+  void decorate(RenderTreeNode<RenderWidget> child) {
     child.htmlNode.addStyles({
-      'padding-top': widget.paddingTop,
-      'padding-tight': widget.paddingRight,
-      'padding-bottom': widget.paddingBottom,
-      'padding-left': widget.paddingLeft
+      'padding-top': widget.top?.toString(),
+      'padding-tight': widget.right?.toString(),
+      'padding-bottom': widget.bottom?.toString(),
+      'padding-left': widget.left?.toString()
     });
-
-    _htmlNode = child.htmlNode;
   }
 }

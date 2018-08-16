@@ -26,7 +26,6 @@ class Input extends StatelessWidget {
 
   @override
   Widget build() => ValueListener(
-      key: key,
       onInput: (value) {
         if (this.onInput != null) {
           onInput(value);

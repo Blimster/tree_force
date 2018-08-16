@@ -13,4 +13,6 @@ part 'package:widget_tree/src/widget_tree/incremental_dom.dart';
 
 part 'package:widget_tree/src/widget_tree/interaction_listener.dart';
 
+part 'package:widget_tree/src/widget_tree/length.dart';
+
 part 'package:widget_tree/src/widget_tree/value_listener.dart';

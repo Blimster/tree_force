@@ -221,6 +221,29 @@ abstract class SingleChildRenderTreeNode<W extends SingleChildRenderWidget> exte
   void setChild(RenderTreeNode child);
 }
 
+abstract class DecoratorRenderWidget extends SingleChildRenderWidget {
+  const DecoratorRenderWidget({Widget child}) : super(child: child);
+
+  DecoratorRenderTreeNode createTreeNode();
+}
+
+abstract class DecoratorRenderTreeNode<W extends DecoratorRenderWidget> extends SingleChildRenderTreeNode<W> {
+  DecoratorRenderTreeNode(Widget widget) : super(widget);
+
+  HtmlNode _htmlNode;
+
+  @override
+  HtmlNode get htmlNode => _htmlNode;
+
+  @override
+  void setChild(RenderTreeNode child) {
+    _htmlNode = child.htmlNode;
+    decorate(child);
+  }
+
+  void decorate(RenderTreeNode child);
+}
+
 abstract class StatelessWidget extends Widget {
   const StatelessWidget({dynamic key}) : super(key: key);
 

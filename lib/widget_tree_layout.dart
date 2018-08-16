@@ -4,6 +4,8 @@ import 'package:widget_tree/widget_tree.dart';
 
 part 'src/widget_tree_layout/align.dart';
 
+part 'src/widget_tree_layout/box.dart';
+
 part 'src/widget_tree_layout/container.dart';
 
 part 'src/widget_tree_layout/flex.dart';

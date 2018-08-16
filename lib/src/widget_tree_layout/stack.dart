@@ -24,7 +24,6 @@ class StackTreeNode extends MultiChildRenderTreeNode<Stack> {
   void addChild(RenderTreeNode<RenderWidget> child) {
     final childNode = child.htmlNode;
     childNode.addStyle('position', 'absolute');
-    childNode.addStyle('pointer-events', 'none');
     childNode.addStyle('z-index', '$_zIndex');
     _zIndex += 100;
 

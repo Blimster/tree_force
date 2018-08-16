@@ -16,9 +16,9 @@ class Button extends StatelessWidget {
 
   @override
   Widget build() => InteractionListener(
-      key: key,
       onClick: onClick,
       child: HtmlTag(
+        key: key,
         tag: 'button',
         id: id,
         classes: classesOf('${classPrefix}button', additionalClasses),

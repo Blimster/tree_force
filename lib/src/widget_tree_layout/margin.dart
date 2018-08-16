@@ -1,42 +1,35 @@
 part of widget_tree_layout;
 
-class Margin extends SingleChildRenderWidget {
-  final String marginTop;
-  final String marginRight;
-  final String marginBottom;
-  final String marginLeft;
+class Margin extends DecoratorRenderWidget {
+  final Length top;
+  final Length right;
+  final Length bottom;
+  final Length left;
 
   const Margin({
-    this.marginTop,
-    this.marginRight,
-    this.marginBottom,
-    this.marginLeft,
+    this.top,
+    this.right,
+    this.bottom,
+    this.left,
     Widget child,
   }) : super(child: child);
 
   @override
-  SingleChildRenderTreeNode<SingleChildRenderWidget> createTreeNode() {
+  DecoratorRenderTreeNode<DecoratorRenderWidget> createTreeNode() {
     return _MarginTreeNode(this);
   }
 }
 
-class _MarginTreeNode extends SingleChildRenderTreeNode<Margin> {
-  HtmlNode _htmlNode;
-
+class _MarginTreeNode extends DecoratorRenderTreeNode<Margin> {
   _MarginTreeNode(Margin widget) : super(widget);
 
   @override
-  HtmlNode get htmlNode => _htmlNode;
-
-  @override
-  void setChild(RenderTreeNode<RenderWidget> child) {
+  void decorate(RenderTreeNode<RenderWidget> child) {
     child.htmlNode.addStyles({
-      'margin-top': widget.marginTop,
-      'margin-right': widget.marginRight,
-      'margin-bottom': widget.marginBottom,
-      'margin-left': widget.marginLeft,
+      'margin-top': widget.top?.toString(),
+      'margin-right': widget.right?.toString(),
+      'margin-bottom': widget.bottom?.toString(),
+      'margin-left': widget.left?.toString(),
     });
-
-    _htmlNode = child.htmlNode;
   }
 }
