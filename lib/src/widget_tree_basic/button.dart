@@ -3,14 +3,14 @@ part of widget_tree_basic;
 class Button extends StatelessWidget {
   final String title;
   final String id;
-  final List<String> additionalClasses;
+  final List<String> classes;
   final void Function() onClick;
 
   Button({
     dynamic key,
     this.id,
     this.title,
-    this.additionalClasses,
+    this.classes,
     this.onClick,
   }) : super(key: key);
 
@@ -21,7 +21,7 @@ class Button extends StatelessWidget {
         key: key,
         tag: 'button',
         id: id,
-        classes: classesOf('${classPrefix}button', additionalClasses),
+        classes: classesOf('${classPrefix}button', classes),
         text: title,
       ));
 }

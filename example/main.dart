@@ -34,7 +34,7 @@ void main() {
                           vertical: VerticalAlignment.bottom,
                           child: Button(
                             title: 'Sign In',
-                            additionalClasses: ['foo'],
+                            classes: ['foo'],
                             onClick: () => print('button was clicked!'),
                           ),
                         )),

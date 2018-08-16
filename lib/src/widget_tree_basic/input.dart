@@ -8,8 +8,8 @@ class Input extends StatelessWidget {
   final String name;
   final String initialValue;
   final String placeholder;
-  final Map<String, String> additionalAttributes;
-  final List<String> additionalClasses;
+  final Map<String, String> attributes;
+  final List<String> classes;
   final ValueChangeListener onInput;
 
   Input({
@@ -19,8 +19,8 @@ class Input extends StatelessWidget {
     this.name,
     this.initialValue,
     this.placeholder,
-    this.additionalAttributes,
-    this.additionalClasses,
+    this.attributes,
+    this.classes,
     this.onInput,
   }) : super(key: key);
 
@@ -42,8 +42,8 @@ class Input extends StatelessWidget {
             'placeholder': placeholder ?? '',
             'value': initialValue ?? '',
           },
-          additionalAttributes,
+          attributes,
         ),
-        classes: classesOf('${classPrefix}input', additionalClasses),
+        classes: classesOf('${classPrefix}input', classes),
       ));
 }

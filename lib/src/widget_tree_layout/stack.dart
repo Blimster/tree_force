@@ -14,7 +14,7 @@ class StackTreeNode extends MultiChildRenderTreeNode<Stack> {
   int _zIndex = 100;
 
   StackTreeNode(Stack widget)
-      : _htmlNode = HtmlNode('div')..addStyle('display', 'block')..addClass('wt-stack'),
+      : _htmlNode = HtmlNode('div')..addStyle('display', 'block')..addClass('${classPrefix}stack'),
         super(widget);
 
   @override
