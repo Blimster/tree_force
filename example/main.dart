@@ -6,6 +6,8 @@ import 'package:widget_tree/widget_tree_fx.dart';
 import 'package:widget_tree/widget_tree_layout.dart';
 
 void main() {
+  // Stream<int>.periodic(Duration(seconds: 2), (count) => count).listen((event) => print(event));
+
   runWidgetTree(
       '#output',
       Opacity(
@@ -20,6 +22,12 @@ void main() {
                     Column(children: [
                       SimpleStateless(),
                       SimpleStateful('state'),
+                      StreamBuilder<int>(
+                          initial: 0,
+                          stream: Stream.periodic<int>(Duration(seconds: 2), (count) => count + 1),
+                          builder: (state) {
+                            return Text(text: 'builder: ${state}');
+                          }),
                       Text(text: 'E-Mail'),
                       Text(text: 'Nickname'),
                       Input(
