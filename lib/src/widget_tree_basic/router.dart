@@ -2,48 +2,46 @@ part of widget_tree_basic;
 
 typedef RouteBuilder = Widget Function(String location, Map<String, dynamic> params);
 
-final Map<String, RouteBuilder> _routes = {};
-final Map<String, _RouterState> _states = {};
+final Map<String, StreamController<LocationWithParams>> _streamControllers = {};
 
-class Router extends StatefulWidget {
-  final String initialLocation;
-  final Set<String> locations;
+class Router extends StatelessWidget {
+  final StreamController<LocationWithParams> _streamController = StreamController<LocationWithParams>();
+  final LocationWithParams initial;
+  final Map<String, RouteBuilder> builders;
 
-  Router({dynamic key, this.initialLocation, Map<String, RouteBuilder> routes})
-      : locations = routes.keys.toSet(),
-        super(key: key) {
-    if (_routes.keys.where((location) => routes.containsKey(location)).isNotEmpty) {
-      throw ArgumentError('duplicate location!');
+  Router({dynamic key, this.initial, Stream<LocationWithParams> stream, this.builders}) : super(key: key) {
+    builders?.keys?.forEach((location) => _streamControllers[location] = _streamController);
+
+    if (stream != null) {
+      stream.listen((event) => _streamController.add(event));
     }
-    _routes.addAll(routes);
   }
 
-  @override
-  State<StatefulWidget> createState() {
-    final state = _RouterState(this);
-    locations.forEach((location) => _states[location] = state);
-    return state;
+  static void navigate(String location, [Map<String, dynamic> params]) {
+    _streamControllers[location]?.add(LocationWithParams(location, params));
   }
-
-  static void navigate(String location, {Map<String, dynamic> params}) {
-    final state = _states[location];
-    state?.setState(() {
-      state.builder = _routes[location];
-      state.location = location;
-      state.params = params;
-    });
-  }
-}
-
-class _RouterState extends State<Router> {
-  RouteBuilder builder;
-  String location;
-  Map<String, dynamic> params;
-
-  _RouterState(Router widget) : super(widget);
 
   @override
   Widget build() {
-    return builder(location, params);
+    return StreamBuilder<LocationWithParams>(
+        initial: initial,
+        stream: _streamController.stream,
+        builder: (state) {
+          if (state == null) {
+            throw StateError('null event received! maybe no initial location was defined?');
+          }
+          final builder = builders[state.location];
+          if (builder == null) {
+            throw StateError('no route builder found for location: ${state.location}');
+          }
+          return builder(state.location, state.params);
+        });
   }
+}
+
+class LocationWithParams {
+  final String location;
+  final Map<String, dynamic> params;
+
+  LocationWithParams(this.location, [this.params]);
 }

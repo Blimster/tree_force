@@ -6,8 +6,6 @@ import 'package:widget_tree/widget_tree_fx.dart';
 import 'package:widget_tree/widget_tree_layout.dart';
 
 void main() {
-  // Stream<int>.periodic(Duration(seconds: 2), (count) => count).listen((event) => print(event));
-
   runWidgetTree(
       '#output',
       Opacity(
