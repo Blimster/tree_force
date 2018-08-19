@@ -9,7 +9,9 @@ class Router extends StatefulWidget {
   final String initialLocation;
   final Set<String> locations;
 
-  Router({this.initialLocation, Map<String, RouteBuilder> routes}) : locations = routes.keys.toSet() {
+  Router({dynamic key, this.initialLocation, Map<String, RouteBuilder> routes})
+      : locations = routes.keys.toSet(),
+        super(key: key) {
     if (_routes.keys.where((location) => routes.containsKey(location)).isNotEmpty) {
       throw ArgumentError('duplicate location!');
     }
