@@ -8,6 +8,8 @@ part 'src/widget_tree_basic/button.dart';
 
 part 'src/widget_tree_basic/input.dart';
 
+part 'src/widget_tree_basic/router.dart';
+
 part 'src/widget_tree_basic/stream_builder.dart';
 
 part 'src/widget_tree_basic/text.dart';
