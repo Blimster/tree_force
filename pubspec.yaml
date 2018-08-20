@@ -5,7 +5,7 @@ author: Oliver Damm <oliver.damm@gmx.de>
 homepage: http://www.github.com/blimster/widget_tree
 
 enviroment:
-  sdk: '>=2.0.0-dev.69.0 <3.0.0'
+  sdk: '>=2.0.0 <3.0.0'
 
 dependencies:
   vector_math: ^2.0.8
