@@ -21,7 +21,10 @@ void main() {
                         width: pixel(200),
                         child: Align(
                           vertical: VerticalAlignment.top,
-                          child: Image(src: 'dart.svg'),
+                          child: Image(
+                            title: 'Dart',
+                            src: 'dart.svg',
+                          ),
                         )),
                     Column(children: [
                       SimpleStateless(),

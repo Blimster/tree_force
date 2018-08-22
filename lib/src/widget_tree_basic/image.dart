@@ -8,7 +8,7 @@ class Image extends HtmlTag {
           id: id,
           attributes: {
             'src': src,
-            'alt': title,
+            'title': title ?? '',
           },
           classes: classesOf('${classPrefix}image', classes),
         );
