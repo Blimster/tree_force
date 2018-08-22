@@ -6,6 +6,8 @@ import 'package:widget_tree/widget_tree.dart';
 
 part 'src/widget_tree_basic/button.dart';
 
+part 'src/widget_tree_basic/image.dart';
+
 part 'src/widget_tree_basic/input.dart';
 
 part 'src/widget_tree_basic/router.dart';

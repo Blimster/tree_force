@@ -17,6 +17,12 @@ void main() {
                   width: percentage(100.0),
                   height: pixel(400),
                   child: Row(children: [
+                    Size(
+                        width: pixel(200),
+                        child: Align(
+                          vertical: VerticalAlignment.top,
+                          child: Image(src: 'dart.svg'),
+                        )),
                     Column(children: [
                       SimpleStateless(),
                       SimpleStateful('state'),
