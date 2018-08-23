@@ -4,8 +4,8 @@ class Text extends HtmlTag {
   Text({
     dynamic key,
     String id,
-    List<String> classes,
     String text,
+    List<String> classes,
   }) : super(
           key: key,
           tag: 'span',
