@@ -6,11 +6,11 @@ final Map<String, StreamController<LocationWithParams>> _streamControllers = {};
 
 class Router extends StatelessWidget {
   final StreamController<LocationWithParams> _streamController = StreamController<LocationWithParams>();
-  final LocationWithParams initial;
-  final Map<String, RouteBuilder> builders;
+  final LocationWithParams initialRoute;
+  final Map<String, RouteBuilder> routeConfig;
 
-  Router({dynamic key, this.initial, Stream<LocationWithParams> stream, this.builders}) : super(key: key) {
-    builders?.keys?.forEach((location) => _streamControllers[location] = _streamController);
+  Router({dynamic key, this.initialRoute, Stream<LocationWithParams> stream, this.routeConfig}) : super(key: key) {
+    routeConfig?.keys?.forEach((location) => _streamControllers[location] = _streamController);
 
     if (stream != null) {
       stream.listen((event) => _streamController.add(event));
@@ -24,13 +24,13 @@ class Router extends StatelessWidget {
   @override
   Widget build() {
     return StreamBuilder<LocationWithParams>(
-        initial: initial,
+        initial: initialRoute,
         stream: _streamController.stream,
         builder: (state) {
           if (state == null) {
             throw StateError('null event received! maybe no initial location was defined?');
           }
-          final builder = builders[state.location];
+          final builder = routeConfig[state.location];
           if (builder == null) {
             throw StateError('no route builder found for location: ${state.location}');
           }
