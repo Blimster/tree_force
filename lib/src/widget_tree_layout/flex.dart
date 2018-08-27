@@ -68,7 +68,7 @@ class Flex extends HtmlTag {
 class Row extends Flex {
   Row({
     dynamic key,
-    ItemAlignment alignItems,
+    ItemAlignment alignItems = ItemAlignment.start,
     List<Widget> children,
   }) : super(
           key: key,
@@ -82,7 +82,7 @@ class Row extends Flex {
 class Column extends Flex {
   Column({
     dynamic key,
-    ItemAlignment alignItems,
+    ItemAlignment alignItems = ItemAlignment.start,
     List<Widget> children,
   }) : super(
           key: key,
