@@ -29,8 +29,8 @@ class Align extends SingleChildRenderWidget {
   final VerticalAlignment vertical;
 
   const Align({
-    this.horizontal = HorizontalAlignment.center,
-    this.vertical = VerticalAlignment.center,
+    this.horizontal,
+    this.vertical,
     Widget child,
   }) : super(child: child);
 
@@ -48,7 +48,7 @@ class _AlignTreeNode extends SingleChildRenderTreeNode<Align> {
       'div',
       attributes: {
         'class': '${classPrefix}align',
-        'style': 'width: 100%; height: 100%; position: relative',
+        'style': '${widget.horizontal != null ? 'width: 100%;' : ''} ${widget.vertical != null ? 'height: 100%;' : ''} position: relative',
       },
     );
   }
@@ -62,14 +62,13 @@ class _AlignTreeNode extends SingleChildRenderTreeNode<Align> {
 
     child.htmlNode.addStyles({
       'position': 'absolute',
-      'left': widget.horizontal.positionLeft,
-      'right': widget.horizontal.positionRight,
-      'top': widget.vertical.positionTop,
-      'bottom': widget.vertical.positionBottom,
-      'transform': 'translate(${widget.horizontal.translateX}, ${widget.vertical.translateY})'
+      'left': widget.horizontal?.positionLeft,
+      'right': widget.horizontal?.positionRight,
+      'top': widget.vertical?.positionTop,
+      'bottom': widget.vertical?.positionBottom,
+      'transform': 'translate(${widget.horizontal != null ? widget.horizontal.translateX : '0'}, ${widget.vertical != null ? widget.vertical.translateY : '0'})'
     });
 
     _htmlNode.addChild(child.htmlNode);
-    //_htmlNode = child.htmlNode;
   }
 }
