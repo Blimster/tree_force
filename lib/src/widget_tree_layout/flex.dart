@@ -39,19 +39,28 @@ class FlexDirection {
   const FlexDirection._(this.style);
 }
 
+class ItemAlignment {
+  static const start = ItemAlignment._('start');
+  static const end = ItemAlignment._('end');
+  static const center = ItemAlignment._('center');
+  static const stretch = ItemAlignment._('stretch');
+
+  final String style;
+
+  const ItemAlignment._(this.style);
+}
+
 class Flex extends HtmlTag {
   Flex({
     dynamic key,
     FlexDirection direction = FlexDirection.row,
+    ItemAlignment alignItems = ItemAlignment.start,
     Iterable<String> classes = const ['${classPrefix}flex'],
     List<Widget> children,
   }) : super(
             key: key,
             tag: 'div',
-            styles: {
-              'display': 'flex',
-              'flex-direction': direction.style,
-            },
+            styles: {'display': 'flex', 'flex-direction': direction.style, 'align-items': alignItems.style},
             classes: classes,
             children: children);
 }
@@ -59,10 +68,12 @@ class Flex extends HtmlTag {
 class Row extends Flex {
   Row({
     dynamic key,
+    ItemAlignment alignItems,
     List<Widget> children,
   }) : super(
           key: key,
           direction: FlexDirection.row,
+          alignItems: alignItems,
           classes: ['${classPrefix}flex-row'],
           children: children,
         );
@@ -71,10 +82,12 @@ class Row extends Flex {
 class Column extends Flex {
   Column({
     dynamic key,
+    ItemAlignment alignItems,
     List<Widget> children,
   }) : super(
           key: key,
           direction: FlexDirection.column,
+          alignItems: alignItems,
           classes: ['${classPrefix}flex-column'],
           children: children,
         );
