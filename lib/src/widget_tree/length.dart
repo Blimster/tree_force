@@ -24,7 +24,7 @@ Length pixel(int pixel) {
   return PixelLength._(pixel);
 }
 
-Length percentage(double percentage) {
+Length percentage(num percentage) {
   return PercentageLength._(percentage);
 }
 
