@@ -10,6 +10,8 @@ part 'src/widget_tree_basic/image.dart';
 
 part 'src/widget_tree_basic/input.dart';
 
+part 'src/widget_tree_basic/label.dart';
+
 part 'src/widget_tree_basic/router.dart';
 
 part 'src/widget_tree_basic/stream_builder.dart';

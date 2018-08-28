@@ -1,74 +1,38 @@
 part of widget_tree_layout;
 
 class HorizontalAlignment {
-  static const left = HorizontalAlignment._('0', null, '0');
-  static const center = HorizontalAlignment._('50%', null, '-50%');
-  static const right = HorizontalAlignment._(null, '0', '0');
+  static const left = HorizontalAlignment._(MainAlignment.start);
+  static const center = HorizontalAlignment._(MainAlignment.center);
+  static const right = HorizontalAlignment._(MainAlignment.end);
 
-  final String positionLeft;
-  final String positionRight;
-  final String translateX;
+  final MainAlignment mainAlign;
 
-  const HorizontalAlignment._(this.positionLeft, this.positionRight, this.translateX);
+  const HorizontalAlignment._(this.mainAlign);
 }
 
 class VerticalAlignment {
-  static const top = VerticalAlignment._('0', null, '0');
-  static const center = VerticalAlignment._('50%', null, '-50%');
-  static const bottom = VerticalAlignment._(null, '0', '0');
+  static const top = VerticalAlignment._(CrossAlignment.start);
+  static const center = VerticalAlignment._(CrossAlignment.center);
+  static const bottom = VerticalAlignment._(CrossAlignment.end);
 
-  final String positionTop;
-  final String positionBottom;
-  final String translateY;
+  final CrossAlignment crossAlign;
 
-  const VerticalAlignment._(this.positionTop, this.positionBottom, this.translateY);
+  const VerticalAlignment._(this.crossAlign);
 }
 
-class Align extends SingleChildRenderWidget {
-  final HorizontalAlignment horizontal;
-  final VerticalAlignment vertical;
-
-  const Align({
-    this.horizontal,
-    this.vertical,
+class Align extends Flex {
+  Align({
+    dynamic key,
+    VerticalAlignment vertical = VerticalAlignment.center,
+    HorizontalAlignment horizontal = HorizontalAlignment.center,
     Widget child,
-  }) : super(child: child);
-
-  @override
-  SingleChildRenderTreeNode<SingleChildRenderWidget> createTreeNode() {
-    return _AlignTreeNode(this);
-  }
+  }) : super(
+    key: key,
+    direction: FlexDirection.row,
+    mainAlign: horizontal.mainAlign,
+    crossAlign: vertical.crossAlign,
+    classes: ['${classPrefix}align'],
+    children: [child],
+  );
 }
 
-class _AlignTreeNode extends SingleChildRenderTreeNode<Align> {
-  HtmlNode _htmlNode;
-
-  _AlignTreeNode(Align widget) : super(widget) {
-    _htmlNode = HtmlNode(
-      'div',
-      attributes: {
-        'class': '${classPrefix}align',
-        'style': '${widget.horizontal != null ? 'width: 100%;' : ''} ${widget.vertical != null ? 'height: 100%;' : ''} position: relative',
-      },
-    );
-  }
-
-  @override
-  HtmlNode get htmlNode => _htmlNode;
-
-  @override
-  void setChild(RenderTreeNode<RenderWidget> child) {
-    assert(_htmlNode.children.isEmpty);
-
-    child.htmlNode.addStyles({
-      'position': 'absolute',
-      'left': widget.horizontal?.positionLeft,
-      'right': widget.horizontal?.positionRight,
-      'top': widget.vertical?.positionTop,
-      'bottom': widget.vertical?.positionBottom,
-      'transform': 'translate(${widget.horizontal != null ? widget.horizontal.translateX : '0'}, ${widget.vertical != null ? widget.vertical.translateY : '0'})'
-    });
-
-    _htmlNode.addChild(child.htmlNode);
-  }
-}

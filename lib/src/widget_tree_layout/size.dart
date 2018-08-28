@@ -6,7 +6,7 @@ class Size extends DecoratorRenderWidget {
 
   const Size({this.width, this.height, Widget child}) : super(child: child);
 
-  const Size.full({dynamic key, Widget child})
+  const Size.full({Widget child})
       : this.width = fullLength,
         this.height = fullLength,
         super(child: child);

@@ -39,28 +39,45 @@ class FlexDirection {
   const FlexDirection._(this.style);
 }
 
-class ItemAlignment {
-  static const start = ItemAlignment._('start');
-  static const end = ItemAlignment._('end');
-  static const center = ItemAlignment._('center');
-  static const stretch = ItemAlignment._('stretch');
+class MainAlignment {
+  static const start = MainAlignment._('flex-start');
+  static const end = MainAlignment._('flex-end');
+  static const center = MainAlignment._('center');
+  static const stretch = MainAlignment._('stretch');
 
   final String style;
 
-  const ItemAlignment._(this.style);
+  const MainAlignment._(this.style);
+}
+
+class CrossAlignment {
+  static const start = CrossAlignment._('flex-start');
+  static const end = CrossAlignment._('flex-end');
+  static const center = CrossAlignment._('center');
+  static const stretch = CrossAlignment._('stretch');
+
+  final String style;
+
+  const CrossAlignment._(this.style);
 }
 
 class Flex extends HtmlTag {
   Flex({
     dynamic key,
     FlexDirection direction = FlexDirection.row,
-    ItemAlignment alignItems = ItemAlignment.start,
+    MainAlignment mainAlign = MainAlignment.start,
+    CrossAlignment crossAlign = CrossAlignment.start,
     Iterable<String> classes = const ['${classPrefix}flex'],
     List<Widget> children,
   }) : super(
             key: key,
             tag: 'div',
-            styles: {'display': 'flex', 'flex-direction': direction.style, 'align-items': alignItems.style},
+            styles: {
+              'display': 'flex',
+              'flex-direction': direction.style,
+              'justify-content': mainAlign.style,
+              'align-items': crossAlign.style,
+            },
             classes: classes,
             children: children);
 }
@@ -68,12 +85,14 @@ class Flex extends HtmlTag {
 class Row extends Flex {
   Row({
     dynamic key,
-    ItemAlignment alignItems = ItemAlignment.start,
+    MainAlignment mainAlign = MainAlignment.start,
+    CrossAlignment crossAlign = CrossAlignment.start,
     List<Widget> children,
   }) : super(
           key: key,
           direction: FlexDirection.row,
-          alignItems: alignItems,
+          mainAlign: mainAlign,
+          crossAlign: crossAlign,
           classes: ['${classPrefix}flex-row'],
           children: children,
         );
@@ -82,12 +101,14 @@ class Row extends Flex {
 class Column extends Flex {
   Column({
     dynamic key,
-    ItemAlignment alignItems = ItemAlignment.start,
+    MainAlignment mainAlign = MainAlignment.start,
+    CrossAlignment crossAlign = CrossAlignment.start,
     List<Widget> children,
   }) : super(
           key: key,
           direction: FlexDirection.column,
-          alignItems: alignItems,
+          mainAlign: mainAlign,
+          crossAlign: crossAlign,
           classes: ['${classPrefix}flex-column'],
           children: children,
         );
