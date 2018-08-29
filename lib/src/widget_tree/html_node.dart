@@ -9,7 +9,7 @@ class HtmlNode {
   final List<HtmlNode> children = [];
   final Map<String, String> attributes = {};
   final Map<String, dynamic> properties = {};
-  final Map<String, EventListener> listeners = {};
+  final Map<String, List<EventListener>> listeners = {};
   HtmlElement htmlElement;
 
   HtmlNode(
@@ -19,7 +19,7 @@ class HtmlNode {
     List<HtmlNode> children,
     Map<String, String> attributes,
     Map<String, dynamic> properties,
-    Map<String, EventListener> listeners,
+    Map<String, List<EventListener>> listeners,
   }) {
     if (children != null) {
       this.children.addAll(children);
@@ -47,8 +47,9 @@ class HtmlNode {
     this.properties[name] = value;
   }
 
-  void setListener(String event, EventListener listener) {
-    this.listeners[event] = listener;
+  void addListener(String event, EventListener listener) {
+    this.listeners[event] ??= [];
+    this.listeners[event].add(listener);
   }
 
   void addClasses(List<String> names) {
@@ -115,8 +116,8 @@ class NativeNodeRender extends HtmlNodeRenderer {
       }
     });
 
-    node.listeners.forEach((event, listener) {
-      element.on[event].listen((e) => listener(e));
+    node.listeners.forEach((event, listeners) {
+      element.on[event].listen((e) => listeners.forEach((listener) => listener(e)));
     });
 
     node.children.forEach((child) {
@@ -138,7 +139,7 @@ class IncrementalDomHtmlNodeRenderer extends HtmlNodeRenderer {
   void _createElement(HtmlNode node) {
     final props = [];
     node.attributes.forEach((name, value) => props.addAll([name, value]));
-    node.listeners.forEach((event, listener) => props.addAll([event, listener]));
+    node.listeners.forEach((event, listeners) => props.addAll([event, (e) => listeners.forEach((listener) => listener(e))]));
 
     final htmlElement = elementOpen(node.tagName, key: node.key, propertyValuePairs: props);
     if (node.text != null) {

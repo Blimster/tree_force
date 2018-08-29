@@ -19,13 +19,13 @@ class InteractionListenerTreeNode extends DecoratorRenderTreeNode<InteractionLis
   @override
   void decorate(RenderTreeNode<RenderWidget> child) {
     if (widget.onClick != null) {
-      _htmlNode.setListener('onclick', (_) => widget.onClick());
+      _htmlNode.addListener('onclick', (_) => widget.onClick());
     }
     if (widget.onFocus != null) {
-      _htmlNode.setListener('onfocus', (_) => widget.onFocus());
+      _htmlNode.addListener('onfocus', (_) => widget.onFocus());
     }
     if (widget.onBlur != null) {
-      _htmlNode.setListener('onblur', (_) => widget.onFocus());
+      _htmlNode.addListener('onblur', (_) => widget.onBlur());
     }
   }
 }

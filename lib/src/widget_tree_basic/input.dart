@@ -38,10 +38,10 @@ class Input extends StatelessWidget {
         attributes: attributesOf(
           {
             'type': type ?? 'text',
-            'name': name ?? '',
-            'placeholder': placeholder ?? '',
-            'value': initialValue ?? '',
-          },
+            'name': name,
+            'placeholder': placeholder,
+            'value': initialValue,
+          }..removeWhere((_, v) => v == null),
           attributes,
         ),
         classes: classesOf('${classPrefix}input', classes),

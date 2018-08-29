@@ -19,7 +19,7 @@ class ValueListenerTreeNode extends DecoratorRenderTreeNode<ValueListener> {
   @override
   void decorate(RenderTreeNode<RenderWidget> child) {
     if (widget.onInput != null) {
-      _htmlNode.setListener('oninput', (Event e) => widget.onInput((e.target as InputElement).value));
+      _htmlNode.addListener('oninput', (Event e) => widget.onInput((e.target as InputElement).value));
     }
   }
 }
