@@ -95,33 +95,35 @@ class _WidgetTree {
 
   _WidgetTree(this.selector, this.hostElement, this.root, this.renderer);
 
-  RenderTreeNode buildTreeNode(Widget widget, _TreeLocation location) {
+  RenderTreeNode buildTreeNode(Widget widget, _TreeLocation location, BuildContext parentContext) {
     if (widget is MultiChildRenderWidget) {
       final treeNode = widget.createTreeNode();
       nodes[location] = treeNode;
       widget.children?.forEach((child) {
-        treeNode.addChild(buildTreeNode(child, location.childLocation(child)));
+        treeNode.addChild(buildTreeNode(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
       });
       return treeNode;
     } else if (widget is SingleChildRenderWidget) {
       final child = widget.child;
       final treeNode = widget.createTreeNode();
       nodes[location] = treeNode;
-      treeNode.setChild(buildTreeNode(child, location.childLocation(child)));
+      treeNode.setChild(buildTreeNode(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
       return treeNode;
     } else if (widget is RenderWidget) {
       final treeNode = widget.createTreeNode();
       nodes[location] = treeNode;
       return treeNode;
     } else if (widget is StatelessWidget) {
-      final builtWidget = widget.build();
+      final context = BuildContext._(widget, null, parentContext);
+      final builtWidget = widget.build(context);
       nodes[location] = widget.createTreeNode();
-      return buildTreeNode(builtWidget, location.childLocation(builtWidget));
+      return buildTreeNode(builtWidget, location.childLocation(builtWidget), BuildContext._(builtWidget, null, context));
     } else if (widget is StatefulWidget) {
       var state = states[location];
       if (state == null) {
         state = widget.createState();
         state._widgetTree = this;
+        state._context = BuildContext._(widget, state, parentContext);
         states[location] = state;
       }
 
@@ -129,7 +131,7 @@ class _WidgetTree {
       nodes[location] = treeNode;
 
       final builtWidget = state.build();
-      final builtTreeNode = buildTreeNode(builtWidget, location.childLocation(builtWidget, resetPositions: true));
+      final builtTreeNode = buildTreeNode(builtWidget, location.childLocation(builtWidget, resetPositions: true), BuildContext._(builtWidget, null, state._context));
 
       return builtTreeNode;
     }
@@ -137,7 +139,33 @@ class _WidgetTree {
   }
 
   void render() {
-    renderer.render(hostElement, buildTreeNode(root, _TreeLocation(root)).htmlNode);
+    renderer.render(hostElement, buildTreeNode(root, _TreeLocation(root), null).htmlNode);
+  }
+}
+
+class BuildContext {
+  final Widget _widget;
+  final State _state;
+  final BuildContext _parent;
+
+  BuildContext._(this._widget, this._state, this._parent);
+
+  Widget nearestWidgetOfType(Type type) {
+    if (_widget.runtimeType == type) {
+      return _widget;
+    } else if (_parent != null) {
+      return _parent.nearestWidgetOfType(type);
+    }
+    return null;
+  }
+
+  State nearestStateOfType(Type type) {
+    if (_state != null && _state.runtimeType == type) {
+      return _state;
+    } else if (_parent != null) {
+      return _parent.nearestStateOfType(type);
+    }
+    return null;
   }
 }
 
@@ -250,7 +278,7 @@ abstract class StatelessWidget extends Widget {
   @override
   StatelessTreeNode createTreeNode() => StatelessTreeNode(this);
 
-  Widget build();
+  Widget build(BuildContext context);
 }
 
 class StatelessTreeNode extends TreeNode<StatelessWidget> {
@@ -273,10 +301,13 @@ class StatefulTreeNode extends TreeNode<StatefulWidget> {
 abstract class State<W extends StatefulWidget> {
   final W widget;
   _WidgetTree _widgetTree;
+  BuildContext _context;
 
   State(this.widget);
 
   Widget build();
+
+  BuildContext get context => _context;
 
   void setState(void Function() setter) {
     setter();

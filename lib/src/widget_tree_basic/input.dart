@@ -25,7 +25,7 @@ class Input extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build() => ValueListener(
+  Widget build(BuildContext context) => ValueListener(
       onInput: (value) {
         if (this.onInput != null) {
           onInput(value);

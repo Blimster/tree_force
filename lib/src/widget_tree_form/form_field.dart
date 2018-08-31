@@ -2,16 +2,19 @@ part of widget_tree_form;
 
 typedef FieldBuilder<T> = Widget Function(FormFieldState<T> formFieldState);
 typedef ValueValidator<T> = String Function(T value);
+typedef ValueReceiver<T> = void Function(T value);
 
 class FormField<T> extends StatefulWidget {
   final T initialValue;
   final ValueValidator<T> validator;
+  final ValueReceiver<T> onSave;
   final FieldBuilder<T> builder;
 
   const FormField({
     dynamic key,
     this.initialValue,
     this.validator,
+    this.onSave,
     this.builder,
   }) : super(key: key);
 
@@ -68,8 +71,26 @@ class FormFieldState<T> extends State<FormField<T>> {
     }
   }
 
+  bool validate() {
+    setState(() {
+      _errorMessage = widget.validator != null ? widget.validator(_value) : null;
+    });
+    return isValid;
+  }
+
+  void reset() {
+    setValue(widget.initialValue);
+  }
+
+  void save() {
+    if (widget.onSave != null) {
+      widget.onSave(value);
+    }
+  }
+
   @override
   Widget build() {
+    Form.of(context)?._registerFormField(this);
     return widget.builder(this);
   }
 }

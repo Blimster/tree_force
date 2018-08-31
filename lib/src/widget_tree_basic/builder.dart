@@ -1,11 +1,11 @@
 part of widget_tree_basic;
 
-typedef WidgetBuilder<T> = Widget Function(T state);
+typedef AsyncWidgetBuilder<T> = Widget Function(T state);
 
 class StreamBuilder<T> extends StatefulWidget {
   final T initial;
   final Stream<T> stream;
-  final WidgetBuilder<T> builder;
+  final AsyncWidgetBuilder<T> builder;
 
   StreamBuilder({dynamic key, this.initial, this.stream, this.builder}) : super(key: key);
 
@@ -26,5 +26,18 @@ class _StreamBuilderState<T> extends State<StreamBuilder<T>> {
   @override
   Widget build() {
     return widget.builder(state);
+  }
+}
+
+typedef WidgetBuilder = Widget Function(BuildContext context);
+
+class Builder extends StatelessWidget {
+  final WidgetBuilder builder;
+
+  Builder({dynamic key, this.builder}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return builder(context);
   }
 }

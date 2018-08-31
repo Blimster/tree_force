@@ -31,7 +31,7 @@ class Box extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build() {
+  Widget build(BuildContext context) {
     return Margin(
         top: marginTop,
         right: marginRight,

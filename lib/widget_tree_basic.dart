@@ -14,6 +14,6 @@ part 'src/widget_tree_basic/label.dart';
 
 part 'src/widget_tree_basic/router.dart';
 
-part 'src/widget_tree_basic/stream_builder.dart';
+part 'src/widget_tree_basic/builder.dart';
 
 part 'src/widget_tree_basic/text.dart';

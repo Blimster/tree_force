@@ -60,7 +60,7 @@ void main() {
 
 class SimpleStateless extends StatelessWidget {
   @override
-  Widget build() {
+  Widget build(BuildContext context) {
     return Row(
       children: [
         Text(text: 'Hello'),

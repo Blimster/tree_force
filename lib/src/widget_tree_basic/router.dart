@@ -22,7 +22,7 @@ class Router extends StatelessWidget {
   }
 
   @override
-  Widget build() {
+  Widget build(BuildContext context) {
     return StreamBuilder<LocationWithParams>(
         initial: initialRoute,
         stream: _streamController.stream,
