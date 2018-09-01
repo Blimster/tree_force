@@ -139,7 +139,7 @@ class _WidgetTree {
   }
 
   void render() {
-    renderer.render(hostElement, buildTreeNode(root, _TreeLocation(root), null).htmlNode);
+    renderer.render(hostElement, [buildTreeNode(root, _TreeLocation(root), null).htmlNode]);
   }
 }
 

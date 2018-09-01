@@ -24,6 +24,25 @@ class FormState extends State<Form> {
 
   FormState(Form widget) : super(widget);
 
+  void setDirty() {
+    _formFields.forEach((f) => f.setDirty());
+  }
+
+  void setTouched() {
+    _formFields.forEach((f) => f.setTouched());
+  }
+
+  bool validate() {
+    if (_formFields.isNotEmpty) {
+      return _formFields.map((f) => f.validate()).reduce((v, e) => v && e);
+    }
+    return true;
+  }
+
+  void reset() {
+    _formFields.forEach((f) => f.reset());
+  }
+
   void save() {
     _formFields.forEach((f) => f.save());
   }

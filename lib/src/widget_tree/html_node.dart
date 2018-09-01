@@ -86,17 +86,19 @@ class HtmlNode {
 }
 
 abstract class HtmlNodeRenderer {
-  void render(HtmlElement hostElement, HtmlNode node);
+  void render(HtmlElement hostElement, List<HtmlNode> nodes);
 }
 
 class NativeNodeRender extends HtmlNodeRenderer {
   @override
-  void render(HtmlElement hostElement, HtmlNode rootNode) {
+  void render(HtmlElement hostElement, List<HtmlNode> nodes) {
     while (hostElement.firstChild != null) {
       hostElement.firstChild.remove();
     }
-    final rootElement = _createElement(rootNode);
-    hostElement.append(rootElement);
+    nodes.forEach((node) {
+      final element = _createElement(node);
+      hostElement.append(element);
+    });
   }
 
   HtmlElement _createElement(HtmlNode node) {
@@ -132,8 +134,10 @@ class NativeNodeRender extends HtmlNodeRenderer {
 
 class IncrementalDomHtmlNodeRenderer extends HtmlNodeRenderer {
   @override
-  void render(HtmlElement hostElement, HtmlNode rootNode) {
-    patch(hostElement, () => _createElement(rootNode));
+  void render(HtmlElement hostElement, List<HtmlNode> nodes) {
+    patch(hostElement, () {
+      nodes.forEach((node) => _createElement(node));
+    });
   }
 
   void _createElement(HtmlNode node) {
