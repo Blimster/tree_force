@@ -6,7 +6,7 @@ import 'package:widget_tree/widget_tree_fx.dart';
 import 'package:widget_tree/widget_tree_layout.dart';
 
 void main() {
-  runWidgetTree(
+  treeForce(
       '#output',
       Opacity(
           opacity: 1.0,

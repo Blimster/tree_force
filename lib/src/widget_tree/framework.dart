@@ -1,7 +1,7 @@
 part of widget_tree;
 
 final JsObject _consoleSupport = JsObject(context['Object']);
-final List<_WidgetTree> _widgetTrees = [];
+final List<_TreeForce> _treeForces = [];
 
 ///
 ///
@@ -22,8 +22,8 @@ const classPrefix = 'wt-';
 /// After this function is executed, a JavaScript object with the name 'wt' is available in the
 /// browser console, that provides some debug information at runtime.
 ///
-void runWidgetTree(String selector, Widget root, {HtmlNodeRenderer renderer}) {
-  if (_widgetTrees.where((wt) => wt.selector == selector).isNotEmpty) {
+void treeForce(String selector, Widget root, {HtmlNodeRenderer renderer}) {
+  if (_treeForces.where((wt) => wt.selector == selector).isNotEmpty) {
     throw ArgumentError("there already runs a widget tree on selector '$selector'!");
   }
 
@@ -34,24 +34,24 @@ void runWidgetTree(String selector, Widget root, {HtmlNodeRenderer renderer}) {
     hostElement.firstChild.remove();
   }
 
-  final widgetTree = _WidgetTree(selector, hostElement, root, renderer);
-  _widgetTrees.add(widgetTree);
+  final treeForce = _TreeForce(selector, hostElement, root, renderer);
+  _treeForces.add(treeForce);
 
   if (_consoleSupport['list'] == null) {
     _consoleSupport['list'] = (_) {
-      for (int i = 0; i < _widgetTrees.length; i++) {
-        final tree = _widgetTrees[i];
+      for (int i = 0; i < _treeForces.length; i++) {
+        final tree = _treeForces[i];
         print("t${i}: ${tree.selector} -> ${tree.root.runtimeType}");
       }
     };
     context['wt'] = _consoleSupport;
   }
 
-  final ti = _consoleSupport['t${_widgetTrees.length - 1}'] = JsObject(context['Object']);
-  ti['states'] = (_) => widgetTree.states.entries.forEach((e) => print('${e.key} -> ${e.value}'));
-  ti['tree'] = (_) => widgetTree.nodes.keys.forEach((p) => print(p));
+  final ti = _consoleSupport['t${_treeForces.length - 1}'] = JsObject(context['Object']);
+  ti['states'] = (_) => treeForce.states.entries.forEach((e) => print('${e.key} -> ${e.value}'));
+  ti['tree'] = (_) => treeForce.nodes.keys.forEach((p) => print(p));
 
-  widgetTree.render();
+  treeForce.render();
 }
 
 class _TreeLocation {
@@ -85,7 +85,7 @@ class _TreeLocation {
   }
 }
 
-class _WidgetTree {
+class _TreeForce {
   final String selector;
   final HtmlElement hostElement;
   final Widget root;
@@ -93,7 +93,7 @@ class _WidgetTree {
   final Map<_TreeLocation, State> states = {};
   final Map<_TreeLocation, TreeNode> nodes = {};
 
-  _WidgetTree(this.selector, this.hostElement, this.root, this.renderer);
+  _TreeForce(this.selector, this.hostElement, this.root, this.renderer);
 
   RenderTreeNode buildTreeNode(Widget widget, _TreeLocation location, BuildContext parentContext) {
     if (widget is MultiChildRenderWidget) {
@@ -122,7 +122,7 @@ class _WidgetTree {
       var state = states[location];
       if (state == null) {
         state = widget.createState();
-        state._widgetTree = this;
+        state._treeForce = this;
         state._context = BuildContext._(widget, state, parentContext);
         states[location] = state;
       }
@@ -300,7 +300,7 @@ class StatefulTreeNode extends TreeNode<StatefulWidget> {
 
 abstract class State<W extends StatefulWidget> {
   final W widget;
-  _WidgetTree _widgetTree;
+  _TreeForce _treeForce;
   BuildContext _context;
 
   State(this.widget);
@@ -311,7 +311,7 @@ abstract class State<W extends StatefulWidget> {
 
   void setState(void Function() setter) {
     setter();
-    _widgetTree.render();
+    _treeForce.render();
   }
 
   @override
