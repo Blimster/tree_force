@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:widget_tree/widget_tree.dart';
-import 'package:widget_tree/widget_tree_basic.dart';
-import 'package:widget_tree/widget_tree_fx.dart';
-import 'package:widget_tree/widget_tree_layout.dart';
+import 'package:tree_force/tree_force.dart';
+import 'package:tree_force/tree_force_basic.dart';
+import 'package:tree_force/tree_force_fx.dart';
+import 'package:tree_force/tree_force_layout.dart';
 
 void main() {
   treeForce(
