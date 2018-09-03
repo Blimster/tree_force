@@ -1,4 +1,4 @@
-name: widget_tree
+name: tree_force
 description: A web ui framework based on a widget tree inspired by Flutter.
 version: 0.1.0
 author: Oliver Damm <oliver.damm@gmx.de>
