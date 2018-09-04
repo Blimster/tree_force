@@ -34,7 +34,7 @@ class Router extends StatelessWidget {
           if (builder == null) {
             throw StateError('no route builder found for location: ${state.location}');
           }
-          return builder(state.location, state.params);
+          return builder(state.location, state.params ?? {});
         });
   }
 }
