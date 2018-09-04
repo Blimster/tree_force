@@ -8,6 +8,7 @@ class Input extends StatelessWidget {
   final String name;
   final String initialValue;
   final String placeholder;
+  final bool autofocus;
   final Map<String, String> attributes;
   final List<String> classes;
   final ValueChangeListener onInput;
@@ -19,6 +20,7 @@ class Input extends StatelessWidget {
     this.name,
     this.initialValue,
     this.placeholder,
+    this.autofocus,
     this.attributes,
     this.classes,
     this.onInput,
@@ -41,6 +43,7 @@ class Input extends StatelessWidget {
             'name': name,
             'placeholder': placeholder,
             'value': initialValue,
+            'autofocus': autofocus != null && autofocus ? '' : null,
           }..removeWhere((_, v) => v == null),
           attributes,
         ),
