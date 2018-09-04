@@ -43,8 +43,8 @@ class FormState extends State<Form> {
     _formFields.forEach((f) => f.reset());
   }
 
-  void save() {
-    _formFields.forEach((f) => f.save());
+  void submit() {
+    _formFields.forEach((f) => f.submit());
   }
 
   @override

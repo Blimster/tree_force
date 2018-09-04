@@ -7,14 +7,14 @@ typedef ValueReceiver<T> = void Function(T value);
 class FormField<T> extends StatefulWidget {
   final T initialValue;
   final ValueValidator<T> validator;
-  final ValueReceiver<T> onSave;
+  final ValueReceiver<T> onSubmit;
   final FieldBuilder<T> builder;
 
   const FormField({
     dynamic key,
     this.initialValue,
     this.validator,
-    this.onSave,
+    this.onSubmit,
     this.builder,
   }) : super(key: key);
 
@@ -82,9 +82,9 @@ class FormFieldState<T> extends State<FormField<T>> {
     setValue(widget.initialValue);
   }
 
-  void save() {
-    if (widget.onSave != null) {
-      widget.onSave(value);
+  void submit() {
+    if (widget.onSubmit != null) {
+      widget.onSubmit(value);
     }
   }
 
