@@ -100,14 +100,18 @@ class _TreeForce {
       final treeNode = widget.createTreeNode();
       nodes[location] = treeNode;
       widget.children?.forEach((child) {
-        treeNode.addChild(buildTreeNode(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
+        if (child != null) {
+          treeNode.addChild(buildTreeNode(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
+        }
       });
       return treeNode;
     } else if (widget is SingleChildRenderWidget) {
-      final child = widget.child;
       final treeNode = widget.createTreeNode();
       nodes[location] = treeNode;
-      treeNode.setChild(buildTreeNode(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
+      final child = widget.child;
+      if (child != null) {
+        treeNode.setChild(buildTreeNode(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
+      }
       return treeNode;
     } else if (widget is RenderWidget) {
       final treeNode = widget.createTreeNode();
@@ -131,7 +135,8 @@ class _TreeForce {
       nodes[location] = treeNode;
 
       final builtWidget = state.build();
-      final builtTreeNode = buildTreeNode(builtWidget, location.childLocation(builtWidget, resetPositions: true), BuildContext._(builtWidget, null, state._context));
+      final builtTreeNode =
+          buildTreeNode(builtWidget, location.childLocation(builtWidget, resetPositions: true), BuildContext._(builtWidget, null, state._context));
 
       return builtTreeNode;
     }
