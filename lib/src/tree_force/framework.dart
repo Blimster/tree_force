@@ -96,12 +96,27 @@ class _TreeForce {
   _TreeForce(this.selector, this.hostElement, this.root, this.renderer);
 
   RenderTreeNode buildTreeNode(Widget widget, _TreeLocation location, BuildContext parentContext) {
+    nodes.clear();
+    final result = buildTreeNodeInternal(widget, location, parentContext);
+
+    final statesToRemove = [];
+    states.keys.forEach((location) {
+      if (!nodes.containsKey(location)) {
+        statesToRemove.add(location);
+      }
+    });
+    statesToRemove.forEach((location) => states.remove(location));
+
+    return result;
+  }
+
+  RenderTreeNode buildTreeNodeInternal(Widget widget, _TreeLocation location, BuildContext parentContext) {
     if (widget is MultiChildRenderWidget) {
       final treeNode = widget.createTreeNode();
       nodes[location] = treeNode;
       widget.children?.forEach((child) {
         if (child != null) {
-          treeNode.addChild(buildTreeNode(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
+          treeNode.addChild(buildTreeNodeInternal(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
         }
       });
       return treeNode;
@@ -110,7 +125,7 @@ class _TreeForce {
       nodes[location] = treeNode;
       final child = widget.child;
       if (child != null) {
-        treeNode.setChild(buildTreeNode(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
+        treeNode.setChild(buildTreeNodeInternal(child, location.childLocation(child), BuildContext._(child, null, parentContext)));
       }
       return treeNode;
     } else if (widget is RenderWidget) {
@@ -121,7 +136,7 @@ class _TreeForce {
       final context = BuildContext._(widget, null, parentContext);
       final builtWidget = widget.build(context);
       nodes[location] = widget.createTreeNode();
-      return buildTreeNode(builtWidget, location.childLocation(builtWidget), BuildContext._(builtWidget, null, context));
+      return buildTreeNodeInternal(builtWidget, location.childLocation(builtWidget), BuildContext._(builtWidget, null, context));
     } else if (widget is StatefulWidget) {
       var state = states[location];
       if (state == null) {
@@ -135,8 +150,11 @@ class _TreeForce {
       nodes[location] = treeNode;
 
       final builtWidget = state.build();
-      final builtTreeNode =
-          buildTreeNode(builtWidget, location.childLocation(builtWidget, resetPositions: true), BuildContext._(builtWidget, null, state._context));
+      final builtTreeNode = buildTreeNodeInternal(
+        builtWidget,
+        location.childLocation(builtWidget, resetPositions: true),
+        BuildContext._(builtWidget, null, state._context),
+      );
 
       return builtTreeNode;
     }
