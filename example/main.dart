@@ -17,15 +17,15 @@ void main() {
                   width: percentage(100.0),
                   height: pixel(400),
                   child: Row(children: [
-                    Size(
-                        width: pixel(200),
-                        child: Align(
-                          vertical: VerticalAlignment.top,
-                          child: Image(
-                            title: 'Dart',
-                            src: 'dart.svg',
-                          ),
-                        )),
+//                    Size(
+//                        width: pixel(200),
+//                        child: Align(
+//                          vertical: VerticalAlignment.top,
+//                          child: Image(
+//                            title: 'Dart',
+//                            src: 'dart.svg',
+//                          ),
+//                        )),
                     Column(children: [
                       SimpleStateless(),
                       SimpleStateful('state'),
@@ -35,7 +35,7 @@ void main() {
                           builder: (state) {
                             return Text(text: 'builder: ${state}');
                           }),
-                      Text(text: 'E-Mail'),
+                      Text(key: 'key1', text: 'E-Mail'),
                       Text(text: 'Nickname'),
                       Input(
                         placeholder: 'test',
