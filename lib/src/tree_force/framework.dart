@@ -49,7 +49,18 @@ void treeForce(String selector, Widget root, {HtmlNodeRenderer renderer}) {
 
   final ti = _consoleSupport['t${_treeForces.length - 1}'] = JsObject(context['Object']);
   ti['states'] = (_) => treeForce.states.entries.forEach((e) => print('${e.key} -> ${e.value}'));
-  ti['tree'] = (_) => treeForce.nodes.keys.forEach((p) => print(p));
+  ti['tree'] = (_) {
+    treeForce.nodes.keys.forEach((p) {
+      final tokens = p.toString().split('.');
+      var result = '';
+      for (int i = 0; i < tokens.length; i++) {
+        result += '  ';
+      }
+      result += tokens.last;
+      print(result);
+    });
+    print('${treeForce.nodes.length} widgets');
+  };
 
   treeForce.render();
 }
