@@ -119,7 +119,7 @@ class NativeNodeRender extends HtmlNodeRenderer {
     });
 
     node.listeners.forEach((event, listeners) {
-      element.on[event].listen((e) => listeners.forEach((listener) => listener(e)));
+      element.on[event.substring(2)].listen((e) => listeners.forEach((listener) => listener(e)));
     });
 
     node.children.forEach((child) {
@@ -135,9 +135,7 @@ class NativeNodeRender extends HtmlNodeRenderer {
 class IncrementalDomHtmlNodeRenderer extends HtmlNodeRenderer {
   @override
   void render(HtmlElement hostElement, List<HtmlNode> nodes) {
-    patch(hostElement, () {
-      nodes.forEach((node) => _createElement(node));
-    });
+    patch(hostElement, (data) => nodes.forEach((node) => _createElement(node)));
   }
 
   void _createElement(HtmlNode node) {
