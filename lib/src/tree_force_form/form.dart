@@ -1,9 +1,10 @@
 part of tree_force_form;
 
 class Form extends StatefulWidget {
+  final String id;
   final Widget child;
 
-  Form({dynamic key, this.child}) : super(key: key);
+  Form({dynamic key, this.id, this.child}) : super(key: key);
 
   @override
   FormState createState() {
@@ -49,7 +50,16 @@ class FormState extends State<Form> {
 
   @override
   Widget build() {
-    return widget.child;
+    return HtmlTag(
+      tag: 'form',
+      id: widget.id,
+      listeners: {
+        'onsubmit': [(e) {
+          e.preventDefault();
+        }]
+      },
+      children: [widget.child],
+    );
   }
 
   void _registerFormField(FormFieldState state) {
