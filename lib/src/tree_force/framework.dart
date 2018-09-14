@@ -181,6 +181,8 @@ class _TreeForce {
         state._treeForce = this;
         state._context = BuildContext._(widget, state, parentContext);
         states[location] = state;
+      } else {
+        state._widget = widget;
       }
 
       final treeNode = widget.createTreeNode();
@@ -359,13 +361,17 @@ class StatefulTreeNode extends TreeNode<StatefulWidget> {
 }
 
 abstract class State<W extends StatefulWidget> {
-  final W widget;
+  W _widget;
   _TreeForce _treeForce;
   BuildContext _context;
 
-  State(this.widget);
+  State(W widget) {
+    _widget = widget;
+  }
 
   Widget build();
+
+  W get widget => _widget;
 
   BuildContext get context => _context;
 
