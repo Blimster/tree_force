@@ -25,7 +25,13 @@ class InteractionListenerTreeNode extends DecoratorRenderTreeNode<InteractionLis
       _htmlNode.addListener('onfocus', (_) => widget.onFocus());
     }
     if (widget.onBlur != null) {
-      _htmlNode.addListener('onblur', (_) => widget.onBlur());
+      _htmlNode.addListener('onblur', (e) {
+        // prevents an exception in the browser console.
+        // it's a combination of the fact, that an input
+        // field to be removed triggers a blur event and
+        // the use of incremental-dom.
+        Future.microtask(() => widget.onBlur());
+      });
     }
   }
 }
