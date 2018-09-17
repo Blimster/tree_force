@@ -1,23 +1,21 @@
 part of tree_force_layout;
 
-class Box extends StatelessWidget {
-  final String id;
+class Layout extends StatelessWidget {
   final Insets margin;
   final Insets padding;
   final Length width;
   final Length height;
   final List<String> classes;
-  final List<Widget> children;
+  final Widget child;
 
-  const Box({
+  const Layout({
     dynamic key,
-    this.id,
     this.margin,
     this.padding,
     this.width,
     this.height,
     this.classes,
-    this.children,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -27,13 +25,9 @@ class Box extends StatelessWidget {
         child: Padding(
             insets: padding,
             child: Size(
-                width: width,
-                height: height,
-                child: Container(
-                  key: key,
-                  id: id,
-                  classes: classes,
-                  children: children,
-                ))));
+              width: width,
+              height: height,
+              child: child,
+            )));
   }
 }

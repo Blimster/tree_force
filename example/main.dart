@@ -11,7 +11,7 @@ void main() {
       Opacity(
           opacity: 1.0,
           child: Padding(
-              top: pixel(10),
+              insets: Insets(top: pixel(20)),
               child: Stack(children: [
                 Size(
                   width: percentage(100.0),
@@ -65,7 +65,7 @@ class SimpleStateless extends StatelessWidget {
       children: [
         Text(text: 'Hello'),
         Margin(
-          left: pixel(10),
+          insets: Insets(left: pixel(10)),
           child: Text(text: 'World'),
         ),
       ],

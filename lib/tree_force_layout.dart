@@ -12,6 +12,8 @@ part 'src/tree_force_layout/fixed.dart';
 
 part 'src/tree_force_layout/flex.dart';
 
+part 'src/tree_force_layout/layout.dart';
+
 part 'src/tree_force_layout/margin.dart';
 
 part 'src/tree_force_layout/padding.dart';

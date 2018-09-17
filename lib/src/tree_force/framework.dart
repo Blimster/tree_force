@@ -23,7 +23,9 @@ const classPrefix = 'wt-';
 /// browser console, that provides some debug information at runtime.
 ///
 void treeForce(String selector, Widget root, {HtmlNodeRenderer renderer}) {
-  if (_treeForces.where((wt) => wt.selector == selector).isNotEmpty) {
+  if (_treeForces
+      .where((wt) => wt.selector == selector)
+      .isNotEmpty) {
     throw ArgumentError("there already runs a widget tree on selector '$selector'!");
   }
 
@@ -59,7 +61,7 @@ void treeForce(String selector, Widget root, {HtmlNodeRenderer renderer}) {
       result += tokens.last;
 
       final state = treeForce.states[node];
-      if(state != null) {
+      if (state != null) {
         result += ' -> ${state}';
       }
 
@@ -328,7 +330,11 @@ abstract class DecoratorRenderTreeNode<W extends DecoratorRenderWidget> extends 
   @override
   void setChild(RenderTreeNode child) {
     _htmlNode = child.htmlNode;
-    decorate(child);
+    if (child is DecoratorRenderTreeNode) {
+      decorate(this);
+    } else {
+      decorate(child);
+    }
   }
 
   void decorate(RenderTreeNode child);

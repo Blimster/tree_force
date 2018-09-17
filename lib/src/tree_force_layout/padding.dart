@@ -1,16 +1,10 @@
 part of tree_force_layout;
 
 class Padding extends DecoratorRenderWidget {
-  final Length top;
-  final Length right;
-  final Length bottom;
-  final Length left;
+  final Insets insets;
 
   const Padding({
-    this.top,
-    this.right,
-    this.bottom,
-    this.left,
+    this.insets,
     Widget child,
   }) : super(child: child);
 
@@ -26,10 +20,10 @@ class _PaddingTreeNode extends DecoratorRenderTreeNode<Padding> {
   @override
   void decorate(RenderTreeNode<RenderWidget> child) {
     child.htmlNode.addStyles({
-      'padding-top': widget.top?.toString(),
-      'padding-right': widget.right?.toString(),
-      'padding-bottom': widget.bottom?.toString(),
-      'padding-left': widget.left?.toString()
+      'padding-top': widget.insets?.top?.toString(),
+      'padding-right': widget.insets?.right?.toString(),
+      'padding-bottom': widget.insets?.bottom?.toString(),
+      'padding-left': widget.insets?.left?.toString()
     });
   }
 }

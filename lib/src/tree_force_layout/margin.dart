@@ -1,16 +1,10 @@
 part of tree_force_layout;
 
 class Margin extends DecoratorRenderWidget {
-  final Length top;
-  final Length right;
-  final Length bottom;
-  final Length left;
+  final Insets insets;
 
   const Margin({
-    this.top,
-    this.right,
-    this.bottom,
-    this.left,
+    this.insets,
     Widget child,
   }) : super(child: child);
 
@@ -26,10 +20,10 @@ class _MarginTreeNode extends DecoratorRenderTreeNode<Margin> {
   @override
   void decorate(RenderTreeNode<RenderWidget> child) {
     child.htmlNode.addStyles({
-      'margin-top': widget.top?.toString(),
-      'margin-right': widget.right?.toString(),
-      'margin-bottom': widget.bottom?.toString(),
-      'margin-left': widget.left?.toString(),
+      'margin-top': widget.insets?.top?.toString(),
+      'margin-right': widget.insets?.right?.toString(),
+      'margin-bottom': widget.insets?.bottom?.toString(),
+      'margin-left': widget.insets?.left?.toString(),
     });
   }
 }
