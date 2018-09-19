@@ -6,7 +6,7 @@ final List<_TreeForce> _treeForces = [];
 ///
 ///
 ///
-const classPrefix = 'wt-';
+const classPrefix = 'tf-';
 
 ///
 /// Binds a widget tree to an HTML element.
@@ -190,7 +190,7 @@ class _TreeForce {
       final treeNode = widget.createTreeNode();
       nodes[location] = treeNode;
 
-      final builtWidget = state.build();
+      final builtWidget = state.build(state._context);
       final builtTreeNode = buildTreeNodeInternal(
         builtWidget,
         location._childLocation(builtWidget),
@@ -375,7 +375,7 @@ abstract class State<W extends StatefulWidget> {
     _widget = widget;
   }
 
-  Widget build();
+  Widget build(BuildContext context);
 
   W get widget => _widget;
 

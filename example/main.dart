@@ -92,7 +92,7 @@ class _SimpleState extends State<SimpleStateful> {
   }
 
   @override
-  Widget build() {
+  Widget build(BuildContext context) {
     return Text(text: '${widget.prefix}: $counter');
   }
 

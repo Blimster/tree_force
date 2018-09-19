@@ -24,7 +24,7 @@ class _StreamBuilderState<T> extends State<StreamBuilder<T>> {
   }
 
   @override
-  Widget build() {
+  Widget build(BuildContext context) {
     return widget.builder(state);
   }
 }

@@ -89,7 +89,7 @@ class FormFieldState<T> extends State<FormField<T>> {
   }
 
   @override
-  Widget build() {
+  Widget build(BuildContext context) {
     Form.of(context)?._registerFormField(this);
     return widget.builder(this);
   }

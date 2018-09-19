@@ -49,7 +49,7 @@ class FormState extends State<Form> {
   }
 
   @override
-  Widget build() {
+  Widget build(BuildContext context) {
     return HtmlTag(
       tag: 'form',
       id: widget.id,
