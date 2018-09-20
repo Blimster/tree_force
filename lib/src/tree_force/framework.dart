@@ -23,9 +23,7 @@ const classPrefix = 'tf-';
 /// browser console, that provides some debug information at runtime.
 ///
 void treeForce(String selector, Widget root, {HtmlNodeRenderer renderer}) {
-  if (_treeForces
-      .where((wt) => wt.selector == selector)
-      .isNotEmpty) {
+  if (_treeForces.where((wt) => wt.selector == selector).isNotEmpty) {
     throw ArgumentError("there already runs a widget tree on selector '$selector'!");
   }
 
@@ -107,16 +105,10 @@ class TreeLocation {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is TreeLocation &&
-              runtimeType == other.runtimeType &&
-              _parent == other._parent &&
-              _token == other._token;
+      identical(this, other) || other is TreeLocation && runtimeType == other.runtimeType && _parent == other._parent && _token == other._token;
 
   @override
-  int get hashCode =>
-      _parent.hashCode ^
-      _token.hashCode;
+  int get hashCode => _parent.hashCode ^ _token.hashCode;
 
   @override
   String toString() {
@@ -185,6 +177,8 @@ class _TreeForce {
         states[location] = state;
       } else {
         state._widget = widget;
+        state._context = BuildContext._(widget, state, parentContext);
+        state.widgetDidChanged();
       }
 
       final treeNode = widget.createTreeNode();
@@ -376,6 +370,8 @@ abstract class State<W extends StatefulWidget> {
   }
 
   Widget build(BuildContext context);
+
+  void widgetDidChanged() {}
 
   W get widget => _widget;
 
