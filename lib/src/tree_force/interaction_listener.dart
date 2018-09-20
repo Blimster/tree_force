@@ -19,13 +19,20 @@ class InteractionListenerTreeNode extends DecoratorRenderTreeNode<InteractionLis
   @override
   void decorate(RenderTreeNode<RenderWidget> child) {
     if (widget.onClick != null) {
-      _htmlNode.addListener('onclick', (_) => widget.onClick());
+      _htmlNode.addListener('onclick', (e) {
+        e.stopPropagation();
+        widget.onClick();
+      });
     }
     if (widget.onFocus != null) {
-      _htmlNode.addListener('onfocus', (_) => widget.onFocus());
+      _htmlNode.addListener('onfocus', (e) {
+        e.stopPropagation();
+        widget.onFocus();
+      });
     }
     if (widget.onBlur != null) {
       _htmlNode.addListener('onblur', (e) {
+        e.stopPropagation();
         // prevents an exception in the browser console.
         // it's a combination of the fact, that an input
         // field to be removed triggers a blur event and
