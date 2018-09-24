@@ -47,8 +47,8 @@ void main() {
                         flexGrow: 1,
                         child: Align(
                           vertical: VerticalAlignment.bottom,
-                          child: Button(
-                            title: 'Sign In',
+                          child: Button.text(
+                            text: 'Sign In',
                             classes: ['foo'],
                             onClick: () => print('button was clicked!'),
                           ),

@@ -8,6 +8,8 @@ part 'src/tree_force_basic/builder.dart';
 
 part 'src/tree_force_basic/button.dart';
 
+part 'src/tree_force_basic/font_icon.dart';
+
 part 'src/tree_force_basic/image.dart';
 
 part 'src/tree_force_basic/input.dart';
