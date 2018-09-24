@@ -1,10 +1,12 @@
 part of tree_force_form;
 
+typedef FormWidgetBuilder = Widget Function(FormState);
+
 class Form extends StatefulWidget {
   final String id;
-  final Widget child;
+  final FormWidgetBuilder builder;
 
-  Form({dynamic key, this.id, this.child}) : super(key: key);
+  Form({dynamic key, this.id, this.builder}) : super(key: key);
 
   @override
   FormState createState() {
@@ -58,7 +60,7 @@ class FormState extends State<Form> {
           e.preventDefault();
         }]
       },
-      children: [widget.child],
+      children: [widget.builder(this)],
     );
   }
 
