@@ -50,6 +50,15 @@ class FormState extends State<Form> {
     _formFields.forEach((f) => f.submit());
   }
 
+  FormFieldState formFieldByKey(dynamic key) {
+    for(final formField in _formFields) {
+      if(formField.widget.key == key) {
+        return formField;
+      }
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return HtmlTag(
