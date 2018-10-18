@@ -2,6 +2,7 @@ part of tree_force_basic;
 
 class Button extends StatelessWidget {
   final String id;
+  final bool enabled;
   final List<String> classes;
   final List<Widget> children;
   final void Function() onClick;
@@ -9,6 +10,7 @@ class Button extends StatelessWidget {
   Button({
     dynamic key,
     this.id,
+    this.enabled = true,
     this.classes,
     this.children,
     this.onClick,
@@ -18,6 +20,7 @@ class Button extends StatelessWidget {
     dynamic key,
     this.id,
     String text,
+    this.enabled = true,
     this.classes,
     this.onClick,
   })  : children = [Text(text: text)],
@@ -28,6 +31,7 @@ class Button extends StatelessWidget {
     this.id,
     String text,
     FontIcon icon,
+    this.enabled = true,
     this.classes,
     this.onClick,
   })  : children = [icon, Text(text: text)],
@@ -38,6 +42,7 @@ class Button extends StatelessWidget {
     this.id,
     String text,
     FontIcon icon,
+    this.enabled = true,
     this.classes,
     this.onClick,
   })  : children = [Text(text: text), icon],
