@@ -136,7 +136,10 @@ class _TreeForce {
         statesToRemove.add(location);
       }
     });
-    statesToRemove.forEach((location) => states.remove(location));
+    statesToRemove.forEach((location) {
+      var state = states.remove(location);
+      state.dispose();
+    });
 
     return result;
   }
@@ -175,6 +178,7 @@ class _TreeForce {
         state._treeForce = this;
         state._context = BuildContext._(widget, state, parentContext);
         states[location] = state;
+        state.init();
       } else {
         state._widget = widget;
         state._context = BuildContext._(widget, state, parentContext);
@@ -370,6 +374,10 @@ abstract class State<W extends StatefulWidget> {
   }
 
   Widget build(BuildContext context);
+
+  void init() {}
+
+  void dispose() {}
 
   void widgetDidChanged() {}
 
