@@ -4,6 +4,8 @@ import 'dart:async';
 import 'dart:html';
 import 'dart:js';
 
+part 'package:tree_force/src/tree_force/color.dart';
+
 part 'package:tree_force/src/tree_force/framework.dart';
 
 part 'package:tree_force/src/tree_force/html_node.dart';
