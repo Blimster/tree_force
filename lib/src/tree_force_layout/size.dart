@@ -21,6 +21,10 @@ class _SizeTreeNode extends DecoratorRenderTreeNode<Size> {
   @override
   void decorate(RenderTreeNode child) {
     final element = child.htmlNode;
-    element.addStyles({'width': '${widget.width}', 'height': '${widget.height}'});
+    element.addStyles({
+      'width': '${widget.width}',
+      'height': '${widget.height}',
+      'box-sizing': 'border-box',
+    });
   }
 }
