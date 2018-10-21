@@ -29,7 +29,7 @@ void treeForce(String selector, Widget root, {HtmlNodeRenderer renderer}) {
 
   renderer ??= IncrementalDomHtmlNodeRenderer();
 
-  final hostElement = querySelector(selector);
+  final hostElement = html.querySelector(selector);
   while (hostElement.firstChild != null) {
     hostElement.firstChild.remove();
   }
@@ -118,7 +118,7 @@ class TreeLocation {
 
 class _TreeForce {
   final String selector;
-  final HtmlElement hostElement;
+  final html.HtmlElement hostElement;
   final Widget root;
   final HtmlNodeRenderer renderer;
   final Map<TreeLocation, State> states = {};

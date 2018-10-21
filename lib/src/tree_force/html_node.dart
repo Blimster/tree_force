@@ -1,6 +1,6 @@
 part of tree_force;
 
-typedef EventListener = void Function(Event event);
+typedef EventListener = void Function(html.Event event);
 
 class HtmlNode {
   final String tagName;
@@ -10,7 +10,7 @@ class HtmlNode {
   final Map<String, String> attributes = {};
   final Map<String, dynamic> properties = {};
   final Map<String, List<EventListener>> listeners = {};
-  HtmlElement htmlElement;
+  html.HtmlElement htmlElement;
 
   HtmlNode(
     this.tagName, {
@@ -86,12 +86,12 @@ class HtmlNode {
 }
 
 abstract class HtmlNodeRenderer {
-  void render(HtmlElement hostElement, List<HtmlNode> nodes);
+  void render(html.HtmlElement hostElement, List<HtmlNode> nodes);
 }
 
 class NativeNodeRender extends HtmlNodeRenderer {
   @override
-  void render(HtmlElement hostElement, List<HtmlNode> nodes) {
+  void render(html.HtmlElement hostElement, List<HtmlNode> nodes) {
     while (hostElement.firstChild != null) {
       hostElement.firstChild.remove();
     }
@@ -101,8 +101,8 @@ class NativeNodeRender extends HtmlNodeRenderer {
     });
   }
 
-  HtmlElement _createElement(HtmlNode node) {
-    final element = Element.tag(node.tagName);
+  html.HtmlElement _createElement(HtmlNode node) {
+    final element = html.Element.tag(node.tagName);
 
     element.text = node.text;
 
@@ -111,7 +111,7 @@ class NativeNodeRender extends HtmlNodeRenderer {
     });
 
     node.properties.forEach((name, value) {
-      if (element is InputElement) {
+      if (element is html.InputElement) {
         if (name == 'value') {
           element.value = value;
         }
@@ -119,7 +119,8 @@ class NativeNodeRender extends HtmlNodeRenderer {
     });
 
     node.listeners.forEach((event, listeners) {
-      element.on[event.substring(2)].listen((e) => listeners.forEach((listener) => listener(e)));
+      final eventName = event.startsWith('on') ? event.substring(2) : event;
+      element.on[eventName].listen((e) => listeners.forEach((listener) => listener(e)));
     });
 
     node.children.forEach((child) {
@@ -134,7 +135,7 @@ class NativeNodeRender extends HtmlNodeRenderer {
 
 class IncrementalDomHtmlNodeRenderer extends HtmlNodeRenderer {
   @override
-  void render(HtmlElement hostElement, List<HtmlNode> nodes) {
+  void render(html.HtmlElement hostElement, List<HtmlNode> nodes) {
     patch(hostElement, (data) => nodes.forEach((node) => _createElement(node)));
   }
 

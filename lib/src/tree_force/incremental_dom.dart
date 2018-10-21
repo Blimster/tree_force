@@ -2,7 +2,7 @@ part of tree_force;
 
 final JsObject _incDom = context['IncrementalDOM'];
 
-HtmlElement elementOpen(String tagName, {String key, List<dynamic> staticPropertyValuePairs, List<dynamic> propertyValuePairs}) {
+html.HtmlElement elementOpen(String tagName, {String key, List<dynamic> staticPropertyValuePairs, List<dynamic> propertyValuePairs}) {
   final args = [tagName, key, staticPropertyValuePairs];
   if (propertyValuePairs != null) {
     args.addAll(propertyValuePairs);
@@ -18,6 +18,6 @@ void text(dynamic text) {
   _incDom.callMethod('text', text != null ? ['$text'] : []);
 }
 
-void patch(Node node, void description(dynamic data)) {
+void patch(html.Node node, void description(dynamic data)) {
   _incDom.callMethod('patch', [node, allowInterop(description)]);
 }

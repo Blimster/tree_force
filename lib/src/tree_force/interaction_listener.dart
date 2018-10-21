@@ -1,11 +1,25 @@
 part of tree_force;
 
-class InteractionListener extends DecoratorRenderWidget {
-  final VoidCallback onClick;
-  final VoidCallback onFocus;
-  final VoidCallback onBlur;
+class KeyEvent {
+  final int keyCode;
+  final bool altKey;
+  final bool ctrlKey;
+  final bool metaKey;
+  final bool shiftKey;
 
-  const InteractionListener({this.onClick, this.onFocus, this.onBlur, Widget child}) : super(child: child);
+  KeyEvent(this.keyCode, this.altKey, this.ctrlKey, this.metaKey, this.shiftKey);
+}
+
+typedef KeyListener = void Function(KeyEvent event);
+
+class InteractionListener extends DecoratorRenderWidget {
+  final html.VoidCallback onClick;
+  final html.VoidCallback onFocus;
+  final html.VoidCallback onBlur;
+  final KeyListener onKeyDown;
+  final KeyListener onKeyUp;
+
+  const InteractionListener({this.onClick, this.onFocus, this.onBlur, this.onKeyDown, this.onKeyUp, Widget child}) : super(child: child);
 
   @override
   InteractionListenerTreeNode createTreeNode() {
@@ -38,6 +52,20 @@ class InteractionListenerTreeNode extends DecoratorRenderTreeNode<InteractionLis
         // field to be removed triggers a blur event and
         // the use of incremental-dom.
         Future.microtask(() => widget.onBlur());
+      });
+    }
+    if (widget.onKeyDown != null) {
+      _htmlNode.addListener('onkeydown', (e) {
+        if (e is html.KeyboardEvent) {
+          widget.onKeyDown(KeyEvent(e.keyCode, e.altKey, e.ctrlKey, e.metaKey, e.shiftKey));
+        }
+      });
+    }
+    if (widget.onKeyUp != null) {
+      _htmlNode.addListener('onkeyup', (e) {
+        if (e is html.KeyboardEvent) {
+          widget.onKeyUp(KeyEvent(e.keyCode, e.altKey, e.ctrlKey, e.metaKey, e.shiftKey));
+        }
       });
     }
   }

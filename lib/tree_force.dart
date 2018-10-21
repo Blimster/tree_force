@@ -1,7 +1,7 @@
 library tree_force;
 
 import 'dart:async';
-import 'dart:html';
+import 'dart:html' as html;
 import 'dart:js';
 
 part 'package:tree_force/src/tree_force/color.dart';
