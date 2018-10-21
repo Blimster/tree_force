@@ -390,6 +390,10 @@ abstract class State<W extends StatefulWidget> {
     _treeForce.render();
   }
 
+  void updateState() {
+    _treeForce.render();
+  }
+
   @override
   String toString() {
     return '${this.runtimeType}';
