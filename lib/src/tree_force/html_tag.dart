@@ -39,6 +39,7 @@ class HtmlTag extends MultiChildRenderWidget {
   final Iterable<String> classes;
   final Map<String, List<EventListener>> listeners;
   final String text;
+  final HtmlNodeModifier modifier;
 
   const HtmlTag({
     dynamic key,
@@ -49,6 +50,7 @@ class HtmlTag extends MultiChildRenderWidget {
     this.classes,
     this.listeners,
     this.text,
+    this.modifier,
     List<Widget> children,
   }) : super(key: key, children: children);
 
@@ -62,7 +64,7 @@ class HtmlTagTreeNode extends MultiChildRenderTreeNode<HtmlTag> {
   final HtmlNode _htmlNode;
 
   HtmlTagTreeNode(HtmlTag widget)
-      : _htmlNode = HtmlNode(widget.tag, text: widget.text),
+      : _htmlNode = HtmlNode(widget.tag, text: widget.text, modifier: widget.modifier),
         super(widget) {
     if (widget.id != null) {
       _htmlNode.setAttribute('id', widget.id);

@@ -1,6 +1,7 @@
 part of tree_force;
 
 typedef EventListener = void Function(html.Event event);
+typedef HtmlNodeModifier = void Function(HtmlNode node);
 
 class HtmlNode {
   final String tagName;
@@ -10,7 +11,8 @@ class HtmlNode {
   final Map<String, String> attributes = {};
   final Map<String, dynamic> properties = {};
   final Map<String, List<EventListener>> listeners = {};
-  html.HtmlElement htmlElement;
+  final HtmlNodeModifier modifier;
+  html.HtmlElement _htmlElement;
 
   HtmlNode(
     this.tagName, {
@@ -20,6 +22,7 @@ class HtmlNode {
     Map<String, String> attributes,
     Map<String, dynamic> properties,
     Map<String, List<EventListener>> listeners,
+    this.modifier,
   }) {
     if (children != null) {
       this.children.addAll(children);
@@ -83,6 +86,15 @@ class HtmlNode {
   void addStyle(String name, String value) {
     addStyles({name: value});
   }
+
+  set htmlElement(html.HtmlElement element) {
+    _htmlElement = element;
+    if(modifier != null) {
+      modifier(this);
+    }
+  }
+
+  html.HtmlElement get htmlElement => _htmlElement;
 }
 
 abstract class HtmlNodeRenderer {
