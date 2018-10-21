@@ -11,6 +11,7 @@ class Input extends StatelessWidget {
   final ValueProvider value;
   final String placeholder;
   final bool autoFocus;
+  final bool spellCheck;
   final Map<String, String> attributes;
   final List<String> classes;
   final ValueChangeListener onInput;
@@ -24,6 +25,7 @@ class Input extends StatelessWidget {
     this.value,
     this.placeholder,
     this.autoFocus,
+    this.spellCheck,
     this.attributes,
     this.classes,
     this.onInput,
@@ -47,6 +49,7 @@ class Input extends StatelessWidget {
             'placeholder': placeholder,
             'value': initialValue,
             'autofocus': autoFocus != null && autoFocus ? '' : null,
+            'spellcheck': spellCheck != null && spellCheck ? 'true' : 'false',
           }..removeWhere((_, v) => v == null),
           attributes,
         ),
