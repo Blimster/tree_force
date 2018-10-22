@@ -87,13 +87,6 @@ class HtmlNode {
     addStyles({name: value});
   }
 
-  set htmlElement(html.HtmlElement element) {
-    _htmlElement = element;
-    if(modifier != null) {
-      modifier(this);
-    }
-  }
-
   html.HtmlElement get htmlElement => _htmlElement;
 }
 
@@ -139,7 +132,7 @@ class NativeNodeRender extends HtmlNodeRenderer {
       element.append(_createElement(child));
     });
 
-    node.htmlElement = element;
+    node._htmlElement = element;
 
     return element;
   }
@@ -164,6 +157,6 @@ class IncrementalDomHtmlNodeRenderer extends HtmlNodeRenderer {
     node.children.forEach((child) => _createElement(child));
     elementClose(node.tagName);
 
-    node.htmlElement = htmlElement;
+    node._htmlElement = htmlElement;
   }
 }

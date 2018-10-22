@@ -19,3 +19,5 @@ part 'package:tree_force/src/tree_force/interaction_listener.dart';
 part 'package:tree_force/src/tree_force/length.dart';
 
 part 'package:tree_force/src/tree_force/value_listener.dart';
+
+part 'package:tree_force/src/tree_force/widget.dart';
