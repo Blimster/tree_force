@@ -28,6 +28,7 @@ class Input extends StatelessWidget {
     this.spellCheck,
     this.attributes,
     this.classes,
+    FocusNode focusNode,
     this.onInput,
   }) : super(key: key);
 
@@ -38,29 +39,30 @@ class Input extends StatelessWidget {
           onInput(value);
         }
       },
-      child: HtmlTag(
-          key: key,
-          tag: 'input',
-          id: id,
-          attributes: attributesOf(
-            {
-              'type': type ?? 'text',
-              'name': name,
-              'placeholder': placeholder,
-              'value': initialValue,
-              'autofocus': autoFocus != null && autoFocus ? '' : null,
-              'spellcheck': spellCheck != null && spellCheck ? 'true' : 'false',
-            }..removeWhere((_, v) => v == null),
-            attributes,
-          ),
-          classes: classesOf('${classPrefix}input', classes),
-          modifier: (htmlNode) {
-            final input = htmlNode.htmlElement as InputElement;
-            if (value != null) {
-              input.value = value();
-            }
-            if(autoFocus != null && autoFocus) {
-              input.focus();
-            }
-          }));
+      child: Focus(
+          child: HtmlTag(
+              key: key,
+              tag: 'input',
+              id: id,
+              attributes: attributesOf(
+                {
+                  'type': type ?? 'text',
+                  'name': name,
+                  'placeholder': placeholder,
+                  'value': initialValue,
+                  'autofocus': autoFocus != null && autoFocus ? '' : null,
+                  'spellcheck': spellCheck != null && spellCheck ? 'true' : 'false',
+                }..removeWhere((_, v) => v == null),
+                attributes,
+              ),
+              classes: classesOf('${classPrefix}input', classes),
+              modifier: (htmlNode) {
+                final input = htmlNode.htmlElement as InputElement;
+                if (value != null) {
+                  input.value = value();
+                }
+                if (autoFocus != null && autoFocus) {
+                  input.focus();
+                }
+              })));
 }

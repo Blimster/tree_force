@@ -182,7 +182,6 @@ class _TreeForce {
       } else {
         state._widget = widget;
         state._context = BuildContext._(widget, state, parentContext);
-        state.widgetDidChanged();
       }
 
       final treeNode = widget.createTreeNode();
@@ -209,6 +208,8 @@ class _TreeForce {
           if (treeNode.htmlNode.modifier != null) {
             treeNode.htmlNode.modifier(treeNode.htmlNode);
           }
+        } else if (treeNode is StatefulTreeNode) {
+          states[location].didMount();
         }
       }
     });

@@ -148,7 +148,7 @@ abstract class State<W extends StatefulWidget> {
 
   void dispose() {}
 
-  void widgetDidChanged() {}
+  void didMount() {}
 
   W get widget => _widget;
 
