@@ -14,6 +14,7 @@ class Input extends StatelessWidget {
   final bool spellCheck;
   final Map<String, String> attributes;
   final List<String> classes;
+  final FocusNode focusNode;
   final ValueChangeListener onInput;
 
   Input({
@@ -28,7 +29,7 @@ class Input extends StatelessWidget {
     this.spellCheck,
     this.attributes,
     this.classes,
-    FocusNode focusNode,
+    this.focusNode,
     this.onInput,
   }) : super(key: key);
 
@@ -40,6 +41,7 @@ class Input extends StatelessWidget {
         }
       },
       child: Focus(
+        node: focusNode,
           child: HtmlTag(
               key: key,
               tag: 'input',
