@@ -18,7 +18,7 @@ class Form extends StatefulWidget {
     if (state is FormState) {
       return state;
     }
-    return null;
+    throw StateError('no form state found!');
   }
 }
 
