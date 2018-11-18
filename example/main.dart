@@ -31,7 +31,7 @@ void main() {
                       SimpleStateful('state'),
                       StreamBuilder<int>(
                           initial: 0,
-                          stream: Stream.periodic<int>(Duration(seconds: 2), (count) => count + 1),
+                          stream: Stream<int>.periodic(Duration(seconds: 2), (count) => count + 1),
                           builder: (state) {
                             return Text(text: 'builder: ${state}');
                           }),
