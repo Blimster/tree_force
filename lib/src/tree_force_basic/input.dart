@@ -58,12 +58,12 @@ class Input extends StatelessWidget {
                 attributes,
               ),
               classes: classesOf('${classPrefix}input', classes),
-              modifier: (htmlNode) {
+              modifier: (htmlNode, event) {
                 final input = htmlNode.htmlElement as InputElement;
                 if (value != null) {
                   input.value = value();
                 }
-                if (autoFocus != null && autoFocus) {
+                if (event == HtmlNodeModifierEvent.mount && autoFocus != null && autoFocus) {
                   input.focus();
                 }
               })));

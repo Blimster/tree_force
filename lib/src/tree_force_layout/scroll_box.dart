@@ -32,7 +32,7 @@ class ScrollBox extends HtmlTag {
             'overflow-y': scrollBars != null && scrollBars.scrollY ? 'scroll' : 'hidden',
           },
           children: children,
-          modifier: (htmlNode) {
+          modifier: (htmlNode, event) {
             final x = posHorizontal ?? htmlNode.htmlElement.scrollLeft;
             final y = posVertical ?? htmlNode.htmlElement.scrollTop;
             htmlNode.htmlElement.scrollTo(x, y);

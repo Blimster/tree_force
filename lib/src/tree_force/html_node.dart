@@ -1,7 +1,9 @@
 part of tree_force;
 
+enum HtmlNodeModifierEvent { mount, update }
+
 typedef EventListener = void Function(html.Event event);
-typedef HtmlNodeModifier = void Function(HtmlNode node);
+typedef HtmlNodeModifier = void Function(HtmlNode node, HtmlNodeModifierEvent phase);
 
 class HtmlNode {
   final String tagName;

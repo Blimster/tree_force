@@ -203,12 +203,12 @@ class _TreeForce {
     final oldNodes = Map.of(nodes);
     renderer.render(hostElement, [buildTreeNode(root, TreeLocation._(root, null), null).htmlNode]);
     nodes.forEach((location, treeNode) {
-      if (!oldNodes.containsKey(location)) {
-        if (treeNode is RenderTreeNode) {
-          if (treeNode.htmlNode.modifier != null) {
-            treeNode.htmlNode.modifier(treeNode.htmlNode);
-          }
-        } else if (treeNode is StatefulTreeNode) {
+      if (treeNode is RenderTreeNode) {
+        if (treeNode.htmlNode.modifier != null) {
+          treeNode.htmlNode.modifier(treeNode.htmlNode, !oldNodes.containsKey(location) ? HtmlNodeModifierEvent.mount : HtmlNodeModifierEvent.update);
+        }
+      } else if (treeNode is StatefulTreeNode) {
+        if (!oldNodes.containsKey(location)) {
           states[location].didMount();
         }
       }
