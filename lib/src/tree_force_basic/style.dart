@@ -22,7 +22,7 @@ class _StyleTreeNode extends DecoratorRenderTreeNode<Style> {
       styles['color'] = widget.color.color;
     }
     if(widget.background != null) {
-      styles['background'] = widget.background.color;
+      styles['background-color'] = widget.background.color;
     }
 
     element.addStyles(styles);
