@@ -17,6 +17,14 @@ class FocusNode {
     final focusNode = _nodes[key];
     focusNode?._htmlNode?.htmlElement?.focus();
   }
+
+  static void moveCursor(String key, int pos) {
+    final focusNode = _nodes[key];
+    final input = focusNode?._htmlNode?.htmlElement;
+    if (input is InputElement) {
+      input.setSelectionRange(pos, pos);
+    }
+  }
 }
 
 class Focus extends DecoratorRenderWidget {
