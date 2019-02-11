@@ -1,13 +1,23 @@
 part of tree_force;
 
 class KeyEvent {
-  final int keyCode;
-  final bool altKey;
-  final bool ctrlKey;
-  final bool metaKey;
-  final bool shiftKey;
+  final html.KeyboardEvent _source;
 
-  KeyEvent(this.keyCode, this.altKey, this.ctrlKey, this.metaKey, this.shiftKey);
+  KeyEvent._(this._source);
+
+  int get keyCode => _source.keyCode;
+
+  bool get ctrlKey => _source.ctrlKey;
+
+  bool get altKey => _source.altKey;
+
+  bool get metaKey => _source.metaKey;
+
+  bool get shiftKey => _source.shiftKey;
+
+  void preventDefault() => _source.preventDefault();
+
+  void stopPropagation() => _source.stopPropagation();
 }
 
 typedef KeyListener = void Function(KeyEvent event);
@@ -57,14 +67,14 @@ class InteractionListenerTreeNode extends DecoratorRenderTreeNode<InteractionLis
     if (widget.onKeyDown != null) {
       _htmlNode.addListener('onkeydown', (e) {
         if (e is html.KeyboardEvent) {
-          widget.onKeyDown(KeyEvent(e.keyCode, e.altKey, e.ctrlKey, e.metaKey, e.shiftKey));
+          widget.onKeyDown(KeyEvent._(e));
         }
       });
     }
     if (widget.onKeyUp != null) {
       _htmlNode.addListener('onkeyup', (e) {
         if (e is html.KeyboardEvent) {
-          widget.onKeyUp(KeyEvent(e.keyCode, e.altKey, e.ctrlKey, e.metaKey, e.shiftKey));
+          widget.onKeyUp(KeyEvent._(e));
         }
       });
     }
