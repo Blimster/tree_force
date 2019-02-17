@@ -20,13 +20,15 @@ class PercentageLength extends Length {
   const PercentageLength._(num percentage) : super._(percentage, '%');
 }
 
-Length pixel(int pixel) {
-  return PixelLength._(pixel);
+class FontSizeLength extends Length {
+  const FontSizeLength._(num fontSize) : super._(fontSize, 'em');
 }
 
-Length percentage(num percentage) {
-  return PercentageLength._(percentage);
-}
+Length pixel(int pixel) => PixelLength._(pixel);
+
+Length percentage(num percentage) => PercentageLength._(percentage);
+
+Length fontSize(num fontSize) => FontSizeLength._(fontSize);
 
 const fullLength = PercentageLength._(100);
 
