@@ -17,9 +17,7 @@ class _StreamBuilderState<T> extends State<StreamBuilder<T>> {
   T state;
 
   _StreamBuilderState(StreamBuilder widget) : super(widget) {
-    if (widget.initial != null) {
       state = widget.initial;
-    }
     widget.stream.listen((state) => setState(() => this.state = state));
   }
 
