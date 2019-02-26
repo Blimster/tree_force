@@ -61,7 +61,7 @@ class HtmlNode {
     var currentValue = attributes['class'];
     names?.forEach((name) {
       if (currentValue != null) {
-        currentValue += ' name';
+        currentValue += ' $name';
       } else {
         currentValue = name;
       }
