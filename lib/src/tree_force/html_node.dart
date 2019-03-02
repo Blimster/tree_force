@@ -143,7 +143,7 @@ class NativeNodeRender extends HtmlNodeRenderer {
 class IncrementalDomHtmlNodeRenderer extends HtmlNodeRenderer {
   @override
   void render(html.HtmlElement hostElement, List<HtmlNode> nodes) {
-    patch(hostElement, (data) => nodes.forEach((node) => _createElement(node)));
+    patch(hostElement, () => nodes.forEach((node) => _createElement(node)));
   }
 
   void _createElement(HtmlNode node) {

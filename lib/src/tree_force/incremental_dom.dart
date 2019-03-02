@@ -18,6 +18,6 @@ void text(dynamic text) {
   _incDom.callMethod('text', text != null ? ['$text'] : []);
 }
 
-void patch(html.Node node, void description(dynamic data)) {
-  _incDom.callMethod('patch', [node, allowInterop(description)]);
+void patch(html.Node node, void description()) {
+  _incDom.callMethod('patch', [node, (data) => description(), null]);
 }
