@@ -1,6 +1,5 @@
 part of tree_force_basic;
 
-typedef ValueChangeListener = void Function(String);
 typedef ValueProvider = String Function();
 
 class Input extends StatelessWidget {
@@ -15,7 +14,7 @@ class Input extends StatelessWidget {
   final Map<String, String> attributes;
   final List<String> classes;
   final FocusNode focusNode;
-  final ValueChangeListener onInput;
+  final OnInput onInput;
 
   Input({
     dynamic key,
@@ -34,7 +33,7 @@ class Input extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ValueListener(
+  Widget build(BuildContext context) => InputListener(
       onInput: (value) {
         if (this.onInput != null) {
           onInput(value);

@@ -20,14 +20,15 @@ class KeyEvent {
   void stopPropagation() => _source.stopPropagation();
 }
 
-typedef KeyListener = void Function(KeyEvent event);
+typedef OnInteraction = void Function();
+typedef OnKey = void Function(KeyEvent event);
 
 class InteractionListener extends DecoratorRenderWidget {
-  final html.VoidCallback onClick;
-  final html.VoidCallback onFocus;
-  final html.VoidCallback onBlur;
-  final KeyListener onKeyDown;
-  final KeyListener onKeyUp;
+  final OnInteraction onClick;
+  final OnInteraction onFocus;
+  final OnInteraction onBlur;
+  final OnKey onKeyDown;
+  final OnKey onKeyUp;
 
   const InteractionListener({this.onClick, this.onFocus, this.onBlur, this.onKeyDown, this.onKeyUp, Widget child}) : super(child: child);
 

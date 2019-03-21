@@ -8,7 +8,7 @@ class FieldTraffic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListener(
+    return InputListener(
         onInput: (_) => formField.setDirty(),
         child: InteractionListener(
           onBlur: () => formField.setTouched(),

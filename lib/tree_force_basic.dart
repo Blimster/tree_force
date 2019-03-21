@@ -9,6 +9,8 @@ part 'src/tree_force_basic/builder.dart';
 
 part 'src/tree_force_basic/button.dart';
 
+part 'src/tree_force_basic/checkbox.dart';
+
 part 'src/tree_force_basic/focus.dart';
 
 part 'src/tree_force_basic/font_icon.dart';
