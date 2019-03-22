@@ -55,6 +55,7 @@ class Button extends StatelessWidget {
         key: key,
         tag: 'button',
         id: id,
+        attributes: enabled == false ? { 'disabled': ''} : {},
         classes: classesOf('${classPrefix}button', classes),
         children: children,
       ));
