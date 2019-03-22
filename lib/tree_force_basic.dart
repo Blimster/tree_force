@@ -23,6 +23,8 @@ part 'src/tree_force_basic/label.dart';
 
 part 'src/tree_force_basic/link.dart';
 
+part 'src/tree_force_basic/list.dart';
+
 part 'src/tree_force_basic/router.dart';
 
 part 'src/tree_force_basic/style.dart';
