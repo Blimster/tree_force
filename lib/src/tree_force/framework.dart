@@ -79,7 +79,8 @@ class TreeLocation {
 
   TreeLocation._(Widget widget, this._parent, {int position = 0})
       : _token = '${widget.runtimeType}${widget.key != null ? '@${widget.key}' : '#${position}'}',
-        _path = '${_parent != null ? '$_parent..' : ''}${widget.runtimeType}${widget.key != null ? '@${widget.key}' : '#${position}'}';
+        _path =
+            '${_parent != null ? '$_parent..' : ''}${widget.runtimeType}${widget.key != null ? '@${widget.key}' : '#${position}'}';
 
   TreeLocation _childLocation(Widget widget) {
     var position = _widgetTypePositions[widget.runtimeType];
@@ -105,7 +106,8 @@ class TreeLocation {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is TreeLocation && runtimeType == other.runtimeType && _parent == other._parent && _token == other._token;
+      identical(this, other) ||
+      other is TreeLocation && runtimeType == other.runtimeType && _parent == other._parent && _token == other._token;
 
   @override
   int get hashCode => _parent.hashCode ^ _token.hashCode;
@@ -150,7 +152,8 @@ class _TreeForce {
       nodes[location] = treeNode;
       widget.children?.forEach((child) {
         if (child != null) {
-          treeNode.addChild(buildTreeNodeInternal(child, location._childLocation(child), BuildContext._(child, null, parentContext)));
+          treeNode.addChild(
+              buildTreeNodeInternal(child, location._childLocation(child), BuildContext._(child, null, parentContext)));
         }
       });
       return treeNode;
@@ -159,7 +162,8 @@ class _TreeForce {
       nodes[location] = treeNode;
       final child = widget.child;
       if (child != null) {
-        treeNode.setChild(buildTreeNodeInternal(child, location._childLocation(child), BuildContext._(child, null, parentContext)));
+        treeNode.setChild(
+            buildTreeNodeInternal(child, location._childLocation(child), BuildContext._(child, null, parentContext)));
       }
       return treeNode;
     } else if (widget is RenderWidget) {
@@ -170,7 +174,8 @@ class _TreeForce {
       final context = BuildContext._(widget, null, parentContext);
       final builtWidget = widget.build(context);
       nodes[location] = widget.createTreeNode();
-      return buildTreeNodeInternal(builtWidget, location._childLocation(builtWidget), BuildContext._(builtWidget, null, context));
+      return buildTreeNodeInternal(
+          builtWidget, location._childLocation(builtWidget), BuildContext._(builtWidget, null, context));
     } else if (widget is StatefulWidget) {
       var state = states[location];
       if (state == null) {
@@ -196,7 +201,7 @@ class _TreeForce {
 
       return builtTreeNode;
     }
-    throw new StateError('unsupported widget type: ${widget?.runtimeType}');
+    throw StateError('unsupported widget type: ${widget?.runtimeType}');
   }
 
   void render() {
@@ -205,7 +210,8 @@ class _TreeForce {
     nodes.forEach((location, treeNode) {
       if (treeNode is RenderTreeNode) {
         if (treeNode.htmlNode.modifier != null) {
-          treeNode.htmlNode.modifier(treeNode.htmlNode, !oldNodes.containsKey(location) ? HtmlNodeModifierEvent.mount : HtmlNodeModifierEvent.update);
+          treeNode.htmlNode.modifier(treeNode.htmlNode,
+              !oldNodes.containsKey(location) ? HtmlNodeModifierEvent.mount : HtmlNodeModifierEvent.update);
         }
       } else if (treeNode is StatefulTreeNode) {
         if (!oldNodes.containsKey(location)) {

@@ -73,14 +73,16 @@ class HtmlTagTreeNode extends MultiChildRenderTreeNode<HtmlTag> {
       _htmlNode.setAttribute(name, value);
     });
 
-    if(widget.styles != null && widget.styles.isNotEmpty)
-    _htmlNode.setAttribute('style', widget.styles.keys.map((name) => '$name: ${widget.styles[name]}').join('; '));
+    if (widget.styles != null && widget.styles.isNotEmpty) {
+      _htmlNode.setAttribute('style', widget.styles.keys.map((name) => '$name: ${widget.styles[name]}').join('; '));
+    }
 
     if (widget.classes != null) {
       _htmlNode.setAttribute('class', widget.classes.join(' '));
     }
-    if(widget.listeners != null) {
-      widget.listeners.forEach((event, listeners) => listeners.forEach((listener) => _htmlNode.addListener(event, listener)));
+    if (widget.listeners != null) {
+      widget.listeners
+          .forEach((event, listeners) => listeners.forEach((listener) => _htmlNode.addListener(event, listener)));
     }
   }
 

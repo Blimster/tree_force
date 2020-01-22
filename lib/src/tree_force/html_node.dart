@@ -143,15 +143,16 @@ class NativeNodeRender extends HtmlNodeRenderer {
 class IncrementalDomHtmlNodeRenderer extends HtmlNodeRenderer {
   @override
   void render(html.HtmlElement hostElement, List<HtmlNode> nodes) {
-    patch(hostElement, () => nodes.forEach((node) => _createElement(node)));
+    patch(hostElement, (_) => nodes.forEach((node) => _createElement(node)));
   }
 
   void _createElement(HtmlNode node) {
     final props = [];
     node.attributes.forEach((name, value) => props.addAll([name, value]));
-    node.listeners.forEach((event, listeners) => props.addAll([event, (e) => listeners.forEach((listener) => listener(e))]));
+    node.listeners
+        .forEach((event, listeners) => props.addAll([event, (e) => listeners.forEach((listener) => listener(e))]));
 
-    final htmlElement = elementOpen(node.tagName, key: node.key, propertyValuePairs: props);
+    final htmlElement = elementOpen(node.tagName, node.key, null, props);
     if (node.text != null) {
       text(node.text);
     }
