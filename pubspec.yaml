@@ -1,7 +1,6 @@
 name: tree_force
 description: A web ui framework based on a widget tree inspired by Flutter.
 version: 0.2.1+1
-author: Oliver Damm <oliver.damm@gmx.de>
 homepage: https://www.github.com/blimster/widget_tree
 
 environment:
